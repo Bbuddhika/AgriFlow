@@ -2,7 +2,7 @@
 
 > Prepared from this workspace on 16 November 2026. This is your individual-development guide, using the scope/steps/commit/done format of the supplied screenshots. It does not assign an invented team number or copy the delivery-system requirements shown in those examples.
 
-> Stage 00 planning is complete with recorded evidence; continue at Stage 01. The repository contains foundation source code, not a finished application. Gateway tests pass; the preserved PostgreSQL/RabbitMQ integration tests remain unverified. Later stages remain planned until their evidence is recorded.
+> Stages 00 and 01 are complete with recorded evidence; continue at Stage 02. The repository contains a verified foundation, not a finished application. All nine backend tests, frontend build/typecheck, eleven-container health and catalog smoke/outage/recovery checks pass. Later stages remain planned until their evidence is recorded.
 
 ## 0. Your scope at a glance
 
@@ -20,13 +20,13 @@
 | Dockerfiles | `frontend/Dockerfile`, `backend/<service>/Dockerfile`, `infrastructure/postgres/Dockerfile`, `infrastructure/rabbitmq/Dockerfile` |
 | Migrations | `backend/market-core-service/src/main/resources/db/migration/`; V1 creates only the produce catalog |
 | API contract | `contracts/openapi/agriflow.yaml`; currently foundation endpoints only |
-| Existing backend test | `backend/market-core-service/src/test/java/lk/agriflow/CatalogIntegrationTest.java`; five test methods, not recorded as passing |
+| Existing backend test | `backend/market-core-service/src/test/java/lk/agriflow/CatalogIntegrationTest.java`; five integration methods passed in Stage 01, alongside four gateway tests |
 | Existing smoke check | `scripts/development/smoke_check.py`; requires a running stack |
 | UI references | `ui-design/index.html` and `ui-design/screens/`; 25 static prototypes, not functional application routes |
 | Working convention | Suggested branch `feature/agriflow-sNN-short-topic`; use the actual repository base branch once Git is initialized |
 | Evidence | `docs/testing/`; update the traceability CSV and progress tracker after each stage |
 
-As observed on 21 November 2026, Git exists on local `main`, with no commits or remote. Branch/commit examples remain proposed workflow instructions. [ADR 003](../architecture/003-separate-backend-services.md) supersedes the original single-backend plan: use separate service deployments and owned databases. See the [work board](work-board.csv), [decision register](decision-register.md) and [state review](state-transition-review.md).
+As of 23 November 2026, baseline `1418bfd` is published to `Bbuddhika/AgriFlow`. Use `main` for release baselines, `dev` for integration and feature branches from `dev`. Stage 01 runs on `feature/agriflow-s01-foundation-verification`. [ADR 003](../architecture/003-separate-backend-services.md) supersedes the original single-backend plan. See the [work board](work-board.csv), [decision register](decision-register.md) and [state review](state-transition-review.md).
 
 ## 1. Read these sources in order
 
@@ -69,7 +69,7 @@ Work packages group related review work. Split a large package into smaller PRs 
 | WP11 — Acceptance | 22 | Recorded integrated, security, load and AI evaluation |
 | WP12 — Release | 23–24 | Demonstrated deployment/recovery and assessment handover |
 
-Stages 03–21 are not implemented. Stage 00 planning is complete; Stages 01–02 have supporting artifacts and open exit checks. Use [the tracker](progress.md) for actual status.
+Stages 03–21 are not implemented. Stage 00 planning and Stage 01 foundation verification are complete. Stage 02 has partial supporting configuration and open exit checks. Use [the tracker](progress.md) for actual status.
 
 Service ownership overrides shorthand domain paths in stages below:
 Stage 03 belongs in `backend/auth-iam-service/`, Stages 17 and notification

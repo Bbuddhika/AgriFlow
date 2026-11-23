@@ -23,9 +23,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - working-directory: frontend
         run: |
-          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+          npm ci
           npm run build
           npm run typecheck
   containers:
@@ -40,8 +42,9 @@ jobs:
           export ASSISTANT_DB_PASSWORD="$(openssl rand -hex 24)"
           export RABBITMQ_PASSWORD="$(openssl rand -hex 24)"
           docker compose config --quiet
-          docker compose up --build --wait --wait-timeout 240
+          docker compose up --build --wait --wait-timeout 600
           python3 scripts/development/smoke_check.py
+          python3 tests/e2e/catalog_outage.py
       - if: always()
         run: docker compose down
         env:

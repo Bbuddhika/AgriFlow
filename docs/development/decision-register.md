@@ -18,7 +18,7 @@ consequences here when resolving a row.
 | D10 | Chat provider/model, disclosure/data-use settings, cost ceiling; seven-day app retention default | OPEN provider/settings | Stages 20–21 real data |
 | D11 | RabbitMQ retry/DLQ retention, monitoring, replay authority and core readiness during outage | OPEN | Stages 16–17 release |
 | D12 | Submission deadline, weekly hours, assessment language/architecture expectations | OPEN; historical 22-week estimate is provisional | Re-estimate delivery plan before committing dates |
-| D13 | Actual Git base is local `main`; no commits or remote yet | OBSERVED | Establish reviewed initial commit and real remote when available |
+| D13 | Baseline `1418bfd` published to `Bbuddhika/AgriFlow`; `main` → `dev` → `feature/agriflow-s01-foundation-verification` | OBSERVED 23 November 2026 | Feature PRs target `dev`; release PRs target `main` |
 | D14 | Public exception limited to foundation taxonomy, system metadata and health | RETAINED from baseline | Revisit at Stage 03; no public lots or private records |
 | D15 | Payments record external collections/payouts separately; no money movement or automatic commission | BASELINE | Stages 13–15 |
 

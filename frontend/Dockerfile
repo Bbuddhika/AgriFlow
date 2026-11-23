@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM node:22-alpine AS dependencies
 WORKDIR /app
-COPY package*.json ./
-# Prefer the committed lockfile as soon as dependencies can be resolved locally.
-RUN --mount=type=cache,target=/root/.npm if [ -f package-lock.json ]; then npm ci; else npm install; fi
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 FROM dependencies AS build
 ENV NEXT_TELEMETRY_DISABLED=1

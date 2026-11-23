@@ -1,12 +1,12 @@
 # Implementation progress
 
-Snapshot updated: 21 November 2026. This tracker begins from reviewed source presence,
+Snapshot updated: 23 November 2026. This tracker begins from reviewed source presence,
 not assumed successful runtime behavior. Update it after each verified stage.
 
 | Stage | Work | Current status | Completion evidence |
 |---|---|---|---|
 | 00 | Baseline/work board | COMPLETE — scope, service ownership, decisions, state review and requirement stories recorded | [Stage 00 evidence](../testing/evidence/stage-00.md); static baseline and Compose configuration checks passed |
-| 01 | Existing stack/build verification | IN PROGRESS — reactor packages and four gateway tests pass; runtime unverified | [Recorded checks](../testing/evidence/stage-00.md); Docker Linux engine unavailable; frontend and container integration checks pending |
+| 01 | Existing stack/build verification | COMPLETE — nine backend tests, locked frontend install/build/typecheck, eleven healthy containers, smoke and outage/recovery pass | [Stage 01 evidence](../testing/evidence/stage-01.md) and [runtime artifact](../testing/evidence/stage-01-runtime.json) |
 | 02 | Shared transactions/security primitives | Partial error/security config only; audit/idempotency/outbox not implemented | None |
 | 03 | Identity/accounts/roles | NOT STARTED | None |
 | 04 | Catalog administration/harvests | Read-only catalog source only; stage not complete | None |
@@ -21,7 +21,7 @@ not assumed successful runtime behavior. Update it after each verified stage.
 | 13 | Deductions/sale/settlement | NOT STARTED | None |
 | 14 | Collections/payouts | NOT STARTED | None |
 | 15 | Financial/stock corrections | NOT STARTED | None |
-| 16 | Reliable outbox publication | Broker config/topology source only; dispatcher not implemented | Existing broker test source, not passing runtime evidence |
+| 16 | Reliable outbox publication | Foundation topology verified; business outbox/dispatcher not implemented | Stage 01 broker tests pass; no business publication completion |
 | 17 | Idempotent notifications | NOT STARTED | None |
 | 18 | Prices/admin settings | NOT STARTED | None |
 | 19 | Reports/history/audit views | NOT STARTED | None |
@@ -50,10 +50,10 @@ notification and assistant services remain closed scaffolds.
 
 - [x] Read the member guide and repository review.
 - [x] Record outstanding stakeholder decisions; deadline and weekly effort remain explicitly open.
-- [x] Inspect existing local Git (`main`, no commits/remote) and exclude browser/profile/generated private state.
-- [ ] Establish the reviewed initial commit and connect the actual remote when available.
-- [ ] Configure local secrets without overwriting an existing `.env`.
-- [ ] Obtain Docker engine and dependency registry access.
-- [ ] Resolve/install dependencies and commit the reviewed frontend lockfile.
-- [ ] Run backend tests, frontend build/typecheck and Compose smoke verification.
-- [ ] Save Stage 01 evidence, then start Stage 02.
+- [x] Inspect Git and exclude browser/profile/generated private state.
+- [x] Establish initial commit `1418bfd`, publish to `Bbuddhika/AgriFlow`, create `dev` and the Stage 01 feature branch.
+- [x] Configure blank local secrets while preserving existing nonempty settings.
+- [x] Obtain Docker engine and dependency registry access.
+- [x] Resolve/install dependencies and include the reviewed frontend lockfile in the Stage 01 changes.
+- [x] Run all nine backend tests, frontend build/typecheck, Compose smoke and outage/recovery verification.
+- [x] Save Stage 01 evidence. Next implementation stage: Stage 02.

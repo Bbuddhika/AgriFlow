@@ -1,0 +1,169 @@
+{
+  "observedAt": "2026-11-23T09:02:07.070429+05:30",
+  "services": [
+    {
+      "service": "analytics-ai-service",
+      "image": "dambulla-agriflow-analytics-ai-service:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "api-gateway",
+      "image": "dambulla-agriflow-api-gateway:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "assistant-database",
+      "image": "dambulla-agriflow-database:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "auth-iam-service",
+      "image": "dambulla-agriflow-auth-iam-service:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "database",
+      "image": "dambulla-agriflow-database:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "frontend",
+      "image": "dambulla-agriflow-frontend:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "identity-database",
+      "image": "dambulla-agriflow-database:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "market-core-service",
+      "image": "dambulla-agriflow-market-core-service:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "notification-service",
+      "image": "dambulla-agriflow-notification-service:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "notifications-database",
+      "image": "dambulla-agriflow-database:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "service": "rabbitmq",
+      "image": "dambulla-agriflow-rabbitmq:0.1.0",
+      "state": "running",
+      "health": "healthy"
+    }
+  ],
+  "images": [
+    {
+      "Id": "sha256:c0202a46dcfbebc8fca382cdddef2ebd29e3d7a732f8b3b942d0246b9bf83aac",
+      "RepoTags": [
+        "dambulla-agriflow-analytics-ai-service:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-analytics-ai-service@sha256:c0202a46dcfbebc8fca382cdddef2ebd29e3d7a732f8b3b942d0246b9bf83aac"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:30:27.821879219Z"
+    },
+    {
+      "Id": "sha256:474181f4b798e9da0ccfd87bc36838e908629f194020e18601f5ad39cf6136b1",
+      "RepoTags": [
+        "dambulla-agriflow-api-gateway:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-api-gateway@sha256:474181f4b798e9da0ccfd87bc36838e908629f194020e18601f5ad39cf6136b1"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:30:28.897810498Z"
+    },
+    {
+      "Id": "sha256:0a9fc2f3498ace8a9a5d3c2e85ae87152fd73a7b163c3f6d5247b4a3142532fb",
+      "RepoTags": [
+        "dambulla-agriflow-auth-iam-service:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-auth-iam-service@sha256:0a9fc2f3498ace8a9a5d3c2e85ae87152fd73a7b163c3f6d5247b4a3142532fb"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:30:28.70075418Z"
+    },
+    {
+      "Id": "sha256:fbab751c8c73b6b72501bdc80ca9b7a28ad28482ddbf31f3effc466b165e5274",
+      "RepoTags": [
+        "dambulla-agriflow-database:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-database@sha256:fbab751c8c73b6b72501bdc80ca9b7a28ad28482ddbf31f3effc466b165e5274"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-18T21:32:20.422594833Z"
+    },
+    {
+      "Id": "sha256:8eb751084d68818c6405ff99ac5f43bbd05286a4aaace5818a587720eb00ae48",
+      "RepoTags": [
+        "dambulla-agriflow-frontend:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-frontend@sha256:8eb751084d68818c6405ff99ac5f43bbd05286a4aaace5818a587720eb00ae48"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:20:40.820804363Z"
+    },
+    {
+      "Id": "sha256:5b8dc9ab6ae57dc107fe4fe6614b6a4547baa81956efcb6d48cdf8b0e9a6ec97",
+      "RepoTags": [
+        "dambulla-agriflow-market-core-service:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-market-core-service@sha256:5b8dc9ab6ae57dc107fe4fe6614b6a4547baa81956efcb6d48cdf8b0e9a6ec97"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:30:28.901701408Z"
+    },
+    {
+      "Id": "sha256:6eb8f2f12bd52c0e81831d7762c077f34ab658bc6caf165850aaf99d9e26b508",
+      "RepoTags": [
+        "dambulla-agriflow-notification-service:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-notification-service@sha256:6eb8f2f12bd52c0e81831d7762c077f34ab658bc6caf165850aaf99d9e26b508"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:30:28.925262532Z"
+    },
+    {
+      "Id": "sha256:b892e28ad2bacda8f93bcdb5e2cd9947d236c2906d6c5510562450f1c3486926",
+      "RepoTags": [
+        "dambulla-agriflow-rabbitmq:0.1.0"
+      ],
+      "RepoDigests": [
+        "dambulla-agriflow-rabbitmq@sha256:b892e28ad2bacda8f93bcdb5e2cd9947d236c2906d6c5510562450f1c3486926"
+      ],
+      "Os": "linux",
+      "Architecture": "amd64",
+      "Created": "2026-11-23T03:15:58.839432954Z"
+    }
+  ]
+}

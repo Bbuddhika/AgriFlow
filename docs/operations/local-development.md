@@ -66,13 +66,13 @@ expects the backend on localhost:8080 unless `API_BASE_URL` is changed.
 
 ```powershell
 cd frontend
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }.local
-npm.cmd install
+if (-not (Test-Path .env.local)) { Copy-Item .env.example .env.local }
+npm.cmd ci
 npm.cmd run dev
 ```
 
-Commit the generated `package-lock.json` after reviewing the initial resolution.
-Subsequent installs should use `npm.cmd ci`. To run the backend outside Docker,
+The committed lockfile fixes dependency resolution. Use `npm.cmd ci`; Docker
+and CI also require the lockfile. To run market core outside Docker,
 provide a reachable PostgreSQL database with `DB_URL`, `DB_USERNAME` and
 `DB_PASSWORD` in the terminal environment. Also provide a reachable RabbitMQ
 broker with `RABBITMQ_HOST`, `RABBITMQ_PORT`, `RABBITMQ_USER`,
@@ -89,6 +89,7 @@ mvn -f backend/pom.xml -pl market-core-service spring-boot:run
 
 ```powershell
 mvn -B -f backend/pom.xml verify
+npm.cmd --prefix frontend ci
 npm.cmd --prefix frontend run build
 npm.cmd --prefix frontend run typecheck
 ```
@@ -97,7 +98,18 @@ Backend integration tests require Docker and use disposable PostgreSQL 17 and
 RabbitMQ 4 Testcontainers instances. They verify migrations, catalog reads,
 denied protected routes, queue declarations, confirmed message routing,
 dead-letter delivery and dependency readiness. CI additionally builds and starts the complete
-stack, then runs the Python smoke check against real HTTP responses.
+stack, then runs Python smoke and outage checks against real HTTP responses.
+
+```powershell
+python scripts/development/check_baseline.py --compose
+python scripts/development/smoke_check.py
+python tests/e2e/catalog_outage.py
+```
+
+The outage check deliberately stops only `market-core-service`, checks the
+gateway's safe 503 and frontend unavailable screen, then restores the service
+and verifies all six types. Run it against the local development stack. It does
+not remove volumes or alter catalog data.
 
 ## Local backup and restore rehearsal
 
@@ -124,7 +136,9 @@ scheduled encrypted off-host backups or prove the recovery objectives.
 
 ## Historical verification recorded during initialization
 
-Current restructuring results are recorded in `docs/testing/evidence/stage-00.md`.
+Current verified foundation results are recorded in
+`docs/testing/evidence/stage-01.md`; all nine backend tests, frontend build,
+eleven-container health and smoke/outage/recovery passed locally on 23 November 2026.
 The following is historical and does not establish verification of the new layout.
 
 - Passed: Docker Compose configuration validation.

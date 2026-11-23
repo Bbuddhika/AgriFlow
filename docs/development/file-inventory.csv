@@ -90,6 +90,8 @@ docs/srs-v1.4-business-rules.md,documentation,text-reviewed,Design or operationa
 docs/srs-v1.5-roles-and-negotiation.md,documentation,text-reviewed,Design or operational documentation,00;24
 docs/system-design.md,documentation,text-reviewed,Design or operational documentation,00;24
 docs/testing/evidence/stage-00.md,source/config,stage-00-static-review,Service baseline evidence or build configuration,00;01
+docs/testing/evidence/stage-01-runtime.json,evidence,stage-01-runtime-observed,Eleven-service health and tested local image IDs,01
+docs/testing/evidence/stage-01.md,source/config,stage-01-executed-or-source-reviewed,Executed Stage 01 verification evidence,01
 docs/testing/requirements-traceability.csv,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
 docs/testing/stage-evidence-template.md,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
 docs/tools/build_documentation.py,documentation-tool,text-reviewed,Documentation regeneration or historical patch utility,24
@@ -100,6 +102,7 @@ frontend/.env.example,source/config,text-reviewed,Project source or configuratio
 frontend/Dockerfile,source/config,text-reviewed,Project source or configuration,00;01
 frontend/next-env.d.ts,source/config,text-reviewed,Project source or configuration,00;01
 frontend/next.config.ts,source/config,text-reviewed,Project source or configuration,00;01
+frontend/package-lock.json,source/config,stage-01-executed-or-source-reviewed,Locked frontend dependency resolution; registry versions reviewed,01
 frontend/package.json,source/config,text-reviewed,Project source or configuration,00;01
 frontend/src/app/api/health/route.ts,source/config,text-reviewed,Public catalog frontend foundation,01
 frontend/src/app/layout.tsx,source/config,text-reviewed,Public catalog frontend foundation,01
@@ -113,6 +116,7 @@ infrastructure/rabbitmq/Dockerfile,source/config,text-reviewed,Broker image and 
 infrastructure/rabbitmq/rabbitmq.conf,source/config,text-reviewed,Broker image and operational configuration,01;16;23
 scripts/development/check_baseline.py,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
 scripts/development/smoke_check.py,source/config,text-reviewed,Project source or configuration,00;01
+tests/e2e/catalog_outage.py,source/config,stage-01-executed-or-source-reviewed,Real gateway/frontend outage and recovery acceptance,01
 ui-design/.gitignore,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
 ui-design/README.md,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
 ui-design/admin-overview.png,binary/source-or-generated,metadata-only,Original requirement document or generated visual/output,04;24

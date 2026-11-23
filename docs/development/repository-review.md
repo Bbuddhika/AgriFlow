@@ -133,6 +133,19 @@ external payment and the correct independently derived payout state.
 
 ## Recorded verification boundaries
 
+### Stage 01 follow-up — 23 November 2026
+
+[Stage 01 evidence](../testing/evidence/stage-01.md) supersedes the original
+registry/Docker blockers and the missing-lockfile finding: registry access is
+available, the frontend lock is resolved, and Docker/CI require `npm ci`.
+All nine backend test methods (four gateway and five catalog/broker integration)
+passed, along with the frontend production build and explicit TypeScript check.
+Live Compose and outage/recovery status is recorded in that evidence, rather
+than inferred from these build results. Identity, business workflows, an outbox
+dispatcher, notification consumption and assistant functionality remain pending.
+
+### Original guide verification boundary
+
 Previous work recorded passing Compose configuration/path/name checks and
 source-format checks. This documentation task checks guide links, stage/trace
 coverage and inventory consistency. It does not rerun application builds,
