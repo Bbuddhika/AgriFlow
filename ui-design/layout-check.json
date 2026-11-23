@@ -1,0 +1,278 @@
+[
+  {
+    "screen": "farmer-home",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-home",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-create",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-create",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-lots",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-lots",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-offers",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-offers",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-accepted",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-accepted",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-rejected",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-rejected",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-visit",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-visit",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-settlement",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-settlement",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-paid",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "farmer-paid",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-explore",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-explore",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-lot",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-lot",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-offer",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-offer",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-offers",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-offers",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-cancelled",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-cancelled",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-reservation",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-reservation",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-shortage",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-shortage",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-shortage-agreed",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-shortage-agreed",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-expired",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-expired",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-confirm",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-confirm",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-receipt",
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": []
+  },
+  {
+    "screen": "buyer-receipt",
+    "width": 360,
+    "scrollWidth": 360,
+    "overflow": []
+  },
+  {
+    "screen": "admin-overview",
+    "width": 1440,
+    "scrollWidth": 1425,
+    "overflow": []
+  },
+  {
+    "screen": "admin-queue",
+    "width": 1440,
+    "scrollWidth": 1425,
+    "overflow": []
+  },
+  {
+    "screen": "admin-inspection",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "overflow": []
+  },
+  {
+    "screen": "admin-payments",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "overflow": []
+  },
+  {
+    "screen": "admin-mobile",
+    "width": 390,
+    "scrollWidth": 375,
+    "overflow": []
+  },
+  {
+    "screen": "admin-mobile",
+    "width": 360,
+    "scrollWidth": 345,
+    "overflow": []
+  }
+]

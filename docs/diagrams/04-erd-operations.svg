@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 850" role="img" aria-label="Operations ERD">
+<defs><marker id="arrow" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#486577"/></marker></defs>
+<rect width="1120" height="850" fill="#fff"/>
+<rect x="30" y="30" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="160.0" y="55" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">ZONES</text>
+<path d="M30,66 H290" stroke="#aac8bd"/>
+<text x="42" y="87" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id</text>
+<text x="42" y="108" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">name, enabled</text>
+<text x="42" y="129" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">unloading bays per zone</text>
+<rect x="425" y="30" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="555.0" y="55" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">SLOTS</text>
+<path d="M425,66 H685" stroke="#aac8bd"/>
+<text x="437" y="87" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK zone_id</text>
+<text x="437" y="108" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">starts_at, ends_at</text>
+<text x="437" y="129" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">booking_limit</text>
+<rect x="820" y="30" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="950.0" y="55" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">VISITS</text>
+<path d="M820,66 H1080" stroke="#aac8bd"/>
+<text x="832" y="87" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK slot_id, vehicle_id</text>
+<text x="832" y="108" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">FK farmer_id; status</text>
+<text x="832" y="129" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">arrival / unloading / departure</text>
+<rect x="30" y="320" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="160.0" y="345" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">UNLOADING_BAYS</text>
+<path d="M30,356 H290" stroke="#aac8bd"/>
+<text x="42" y="377" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK zone_id</text>
+<text x="42" y="398" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">label, enabled</text>
+<text x="42" y="419" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">one active allocation per bay</text>
+<rect x="425" y="320" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="555.0" y="345" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">BAY_ALLOCATIONS</text>
+<path d="M425,356 H685" stroke="#aac8bd"/>
+<text x="437" y="377" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK bay_id, visit_id</text>
+<text x="437" y="398" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">allocated_at, released_at</text>
+<text x="437" y="419" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">unique active visit and bay</text>
+<rect x="820" y="320" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="950.0" y="345" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">VISIT_LOTS</text>
+<path d="M820,356 H1080" stroke="#aac8bd"/>
+<text x="832" y="377" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK/FK visit_id</text>
+<text x="832" y="398" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK/FK lot_id</text>
+<text x="832" y="419" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">owned lot association</text>
+<rect x="820" y="610" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="950.0" y="635" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">LOTS</text>
+<path d="M820,646 H1080" stroke="#aac8bd"/>
+<text x="832" y="667" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK harvest_id</text>
+<text x="832" y="688" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">status, stock basis</text>
+<text x="832" y="709" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">trade ERD contains details</text>
+<rect x="425" y="610" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="555.0" y="635" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">INSPECTIONS</text>
+<path d="M425,646 H685" stroke="#aac8bd"/>
+<text x="437" y="667" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK lot_id, recorded_by_admin_id</text>
+<text x="437" y="688" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">total / saleable kg, grade</text>
+<text x="437" y="709" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">FK supersedes_id; reason</text>
+<rect x="30" y="610" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="160.0" y="635" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">RECONCILIATION_CASES</text>
+<path d="M30,646 H290" stroke="#aac8bd"/>
+<text x="42" y="667" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK lot_id, inspection_id</text>
+<text x="42" y="688" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">state, deficit, coordinator_id</text>
+<text x="42" y="709" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">many buyer proposals</text>
+<polyline points="290,100 425,100" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="85" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="685,100 820,100" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="750" y="85" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="160,175 160,320" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="215" y="250" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="290,390 425,390" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="375" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="950,175 950,320" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1005" y="250" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 1..*</text>
+<polyline points="950,465 950,610" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1015" y="550" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">0..* : 1</text>
+<polyline points="820,680 685,680" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="750" y="665" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="425,680 290,680" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="665" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..1</text>
+<polyline points="820,150 750,150 750,260 555,260 555,320" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="600" y="245" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..* allocations</text>
+<text x="560" y="810" font-family="Arial,sans-serif" font-size="14" fill="#173b42" text-anchor="middle">VEHICLES 1 → many VISITS; USERS 1 → many visits / inspections / coordinated cases.</text>
+</svg>

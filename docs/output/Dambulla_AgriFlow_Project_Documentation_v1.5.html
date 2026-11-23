@@ -1,0 +1,352 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Dambulla AgriFlow — Project Documentation v1.5</title><style>@page { size:A4; margin:17mm 16mm 19mm; } *{box-sizing:border-box} body{font-family:Arial,sans-serif;color:#203c43;font-size:10pt;line-height:1.48;margin:0} h1,h2,h3,h4,h5{color:#155b4a;break-after:avoid} h1{font-size:27pt;line-height:1.2} h2{font-size:20pt;border-bottom:2px solid #77ad90;padding-bottom:8px} h3{font-size:15pt;margin-top:22px} h4{font-size:12pt} h5{font-size:10.5pt} p{orphans:3;widows:3} table{border-collapse:collapse;width:100%;margin:12px 0;font-size:8.3pt;table-layout:fixed} th,td{border:1px solid #bfd2ca;padding:7px;vertical-align:top;overflow-wrap:anywhere} th{background:#e4f1eb;color:#164e40} tr{break-inside:avoid} li{margin:5px 0} code{font-size:8.5pt;background:#f0f5f3;overflow-wrap:anywhere} .cover{page-break-after:always;padding:95px 15px 20px;border-top:12px solid #26755b;min-height:900px}.eyebrow{letter-spacing:3px;color:#528577;font-size:11pt}.subtitle{font-size:17pt;color:#628374}.meta{margin-top:65px;border-left:4px solid #7db998;padding:15px;background:#f0f7f3}.section{page-break-before:always}.figure{page-break-before:always;break-inside:avoid}.figure h2{font-size:18pt}.figure img{display:block;width:100%;max-height:218mm;object-fit:contain}.caption{font-size:9pt;color:#536d73}.note{background:#fff6df;padding:12px;border-left:4px solid #c59c39}a{color:#155b4a} .toc li{margin:12px 0} @media screen{body{max-width:960px;margin:auto;padding:35px;background:white}.figure{margin-top:60px}}</style></head><body><div class="cover"><p class="eyebrow">PROJECT DOCUMENTATION • VERSION 1.5</p><h1>Dambulla<br>AgriFlow</h1><p class="subtitle">Software requirements &amp; system design</p><p>A single-market agricultural wholesale coordination platform</p><div class="meta"><p><strong>Prepared:</strong> 3 November 2026</p><p><strong>Delivery model:</strong> one student developer with AI assistance</p><p><strong>Planning horizon:</strong> 22 weeks, subject to effort and deadline confirmation</p><p><strong>Status:</strong> pre-implementation design baseline for review</p></div><p>Includes functional requirements, business policies, data design, role permissions, APIs, verification, delivery plan and ten editable diagrams.</p><p>Author/student details, institution and supervisor sign-off remain to be supplied. This document does not claim implementation, testing or approval has occurred.</p></div><h2>Document guide</h2><p>This consolidated document incorporates the supplied v1.3 requirements and the subsequent project decisions. The MVP uses three roles: Farmer, Buyer and Administrator. Farmers publish asking prices and buyers negotiate through price offers. Twenty-four-hour reservations supersede the original two-hour rule. Administrator-managed collections and payouts are separate records; no payment gateway is included.</p><ol class="toc"><li><a href="#scope">Current scope: three roles and price negotiation</a></li><li><a href="#overview">Project requirements</a></li><li><a href="#rules">Selected business rules</a></li><li><a href="#design">System design and verification</a></li><li><a href="#plan">Implementation and delivery plan</a></li><li><a href="#diagrams">Design diagrams (10 figures)</a></li><li><a href="#references">Sources, status and revision record</a></li></ol><section class="section" id="scope"><h2>Current scope: three roles and price negotiation</h2><h2>SRS v1.5 — three roles and negotiated lot prices</h2>
+<p>Status: user-requested scope update. This amendment supersedes conflicting role and pricing clauses in v1.3, the historical requirements review and v1.4 business rules. Unchanged inventory, reservation, reconciliation, payment and correction rules still apply.</p>
+<h3>Three application roles</h3>
+<p>The MVP has exactly three roles: FARMER, BUYER and ADMINISTRATOR. Separate operator and inspector accounts are deferred. Administrator responsibilities include gate check-in, slots, queues, unloading bays, physical inspection records, reinspection, shortage coordination, payment records and corrections, alongside account/catalog/price/report management.</p>
+<p>The administrator records actual measured quality and weight; the application does not perform physical inspection. Every such action identifies the administrator and records time, reason and history. Farmers retain offer acceptance and deduction approval. Buyers retain shortage consent and purchase confirmation. Administrator access cannot substitute for either party&#x27;s consent.</p>
+<h3>Published asking price and buyer offers — FR02–FR05</h3>
+<ul>
+<li>A farmer creates a draft lot with produce type, available kg, declared grade, expected arrival and a strictly positive asking price in LKR/kg. Publishing makes the lot visible in buyer search. Draft, rejected, closed or fully unavailable lots cannot receive new offers.</li>
+<li>The buyer sees the farmer&#x27;s asking price, current available kg and declared/inspected grade. A separately labelled dated market reference price is informational and must never replace the farmer&#x27;s asking price.</li>
+<li>A <strong>Make an offer</strong> action lets the buyer enter a positive quantity and positive offered LKR/kg price, including a price below the asking price. Show asking price, offered price, requested kg and offered total before submission.</li>
+<li>Pending offers do not reserve stock. Several buyers may submit offers for the same lot. Validate current availability on submission for useful feedback, then check it again transactionally on farmer acceptance.</li>
+<li>The farmer sees their incoming offers with buyer display identity, kg, offered price, total and status, and accepts or rejects each offer. This is private price negotiation, not an auction: there is no automatic highest-bid winner, bid ranking or disclosure of other buyers&#x27; prices.</li>
+<li>Acceptance freezes the offered unit price as the agreed unit price and creates a 24-hour reservation if sufficient stock remains. A price equal to the asking price still requires farmer acceptance. A farmer cannot alter the buyer&#x27;s submitted price during acceptance.</li>
+<li>A farmer may edit the asking price for unreserved stock, with audit history. This does not change existing pending offers or accepted reservations. Store asking_price_at_submission and listing version on each offer so both parties can see its original context.</li>
+<li>A pending offer can be cancelled by its buyer. After rejection/cancellation, the buyer may submit a new offer. Direct farmer counter-offers, free-text messaging and automatic bidding are deferred; repeated offers support the basic negotiation journey.</li>
+<li>Accepted offers are immutable except the already-defined consented shortage quantity amendment. Final sale gross uses the agreed offer price, never the current listing or reference price. Reject acceptance of rejected, closed or ineligible lots; insufficient stock returns a conflict.</li>
+<li>Notify the farmer when a new offer arrives and the buyer when it is accepted/rejected. Both parties can view their own offer history; other buyers&#x27; private offers remain hidden.</li>
+</ul>
+<h3>Example</h3>
+<p>A farmer publishes 100 kg of potatoes at <strong>LKR 200/kg</strong>. A buyer offers <strong>LKR 195/kg for 50 kg</strong>, a total of <strong>LKR 9,750</strong>. If the farmer accepts, 50 kg is reserved for 24 hours at LKR 195/kg and 50 kg remains available. After satisfactory inspection and buyer confirmation, the gross sale is LKR 9,750. If the farmer rejects, no stock is reserved and the buyer can submit another offer. Updating the listing to LKR 205/kg does not change the accepted LKR 195/kg agreement.</p>
+<h3>Data, API and screen changes</h3>
+<ul>
+<li>Lots: required asking_price_per_kg for publication, price_version, published_at and listing state. Use positive NUMERIC(16,2) prices; retain immutable price-change audit history.</li>
+<li>Offers: offered_price_per_kg, quantity_kg, asking_price_at_submission, listing_price_version, buyer/lot references and existing offer states. Reservations/sales retain agreed unit price through the accepted offer and immutable sale snapshot.</li>
+<li>Inspections: recorded_by_admin_id replaces the separate inspector-role reference; the physical measurement fields and history stay unchanged. Bay/queue actions record their administrator actor.</li>
+<li>POST /harvests/{id}/lots creates a draft; POST /lots/{id}/publish requires a valid asking price. PATCH /lots/{id}/asking-price updates an owned eligible lot with version checking. POST /lots/{id}/offers accepts quantityKg and offeredPricePerKg; accept/reject routes remain farmer-owned. Stale price edits conflict; price edits never rewrite offers.</li>
+<li>Farmer lot form/list/detail: asking price, publish action, incoming offers with accept/reject and agreed-price history.</li>
+<li>Buyer search/detail: asking price, available kg, Make an offer, offer form/total, submitted offers and reservation expiry.</li>
+<li>Administrator dashboard groups Market Operations, Inspections, Payments and Administration; these are sections of one role, not separate roles.</li>
+</ul>
+<h3>Acceptance criteria and traceability</h3>
+<table>
+<tr><th>Test</th><th>Requirements</th><th>Expected result</th></tr>
+<tr><td>NEG01</td><td>FR02–03</td><td>Publication without positive asking price fails; valid published lot is discoverable</td></tr>
+<tr><td>NEG02</td><td>FR04</td><td>LKR 195/kg offer against LKR 200/kg asking price is accepted as a pending offer; no stock held</td></tr>
+<tr><td>NEG03</td><td>FR05/09</td><td>Farmer acceptance reserves requested kg for 24 hours at LKR 195/kg; sale retains that price</td></tr>
+<tr><td>NEG04</td><td>FR05</td><td>Rejection/cancellation creates no hold; buyer can submit a new offer</td></tr>
+<tr><td>NEG05</td><td>FR03–05/09</td><td>Asking-price changes do not mutate pending or accepted offer prices or old receipts</td></tr>
+<tr><td>NEG06</td><td>FR04/05</td><td>Buyers cannot view another buyer&#x27;s private offer; cannot accept their own offer as farmer</td></tr>
+<tr><td>NEG07</td><td>FR05</td><td>Two acceptances exceeding remaining kg cannot both commit</td></tr>
+<tr><td>ROLE01</td><td>FR01/06–08/10/14</td><td>Only administrator performs operational, inspection and financial actions; all are audited</td></tr>
+<tr><td>ROLE02</td><td>FR01/05/09</td><td>Administrator cannot impersonate farmer acceptance/deduction approval or buyer consent/confirmation</td></tr>
+</table>
+<h3>Plan and version changes</h3>
+<p>Weeks 3–4 now establish three demo roles and their permission tests. Weeks 5–6 include publishable asking-priced lots; weeks 7–8 include buyer price offers and farmer decisions. Operations, inspection and financial workflows remain required but share the administrator dashboard. Keep the 22-week plan provisional rather than claiming an unmeasured schedule reduction.</p>
+<p>The v1.5 PDF and this consolidated source are the current documentation baseline. Implementation and test outcomes remain pending.</p></section><section class="section" id="overview"><h2>Project requirements</h2><h3>2. Product understanding</h3>
+<p>AgriFlow coordinates a single agricultural wholesale market through a responsive web application. Farmers register produce; buyers make offers; farmers accept offers to reserve stock; administrators coordinate vehicle visits and unloading; administrators establish physical quality and weight; buyers confirm purchases; administrators record payment evidence. The software records trades and settlements but does not transfer money.</p>
+<p>The main journey is:</p>
+<p><code>Account → harvest → lot → offer → reservation → vehicle visit → inspection → sale → settlement → payment evidence</code></p>
+<p>Visits can be booked without a reservation. A lot can have multiple buyers and partial sales. The model assistant reads authorized application information and approved help; it has no authority to change business records.</p>
+<h4>Actors</h4>
+<table>
+<tr><th>Actor</th><th>Responsibilities</th><th>Boundary</th></tr>
+<tr><td>Farmer</td><td>Publish asking-priced lots, accept/reject offers, book visits, approve deductions, view own sales</td><td>Own records; cannot inspect or record payments</td></tr>
+<tr><td>Buyer</td><td>Search lots, propose price/kg and quantity, consent to shortages, confirm purchase</td><td>Own offers/transactions; no other buyer&#x27;s private offers</td></tr>
+<tr><td>Administrator</td><td>Operations, inspections, shortages, payments, corrections, accounts, prices, reports</td><td>Audited actions; cannot impersonate farmer or buyer consent</td></tr>
+</table>
+<p>The assistant is a read-only feature, not an additional role. Separate operations and inspection staff accounts are future extensions.</p>
+<h3>3. Functional requirement inventory</h3>
+<p>IDs below preserve the source numbering. These are condensed requirements, not replacements for the original detailed clauses.</p>
+<table>
+<tr><th>ID</th><th>Required behavior</th><th>Acceptance emphasis</th></tr>
+<tr><td>FR01</td><td>Accounts, sign-in, account status, roles and access control</td><td>Restricted actions denied server-side; session expiry/revocation</td></tr>
+<tr><td>FR02</td><td>Farmer profile and harvest registration</td><td>Ownership, produce type, positive kg, planned arrival and validation</td></tr>
+<tr><td>FR03</td><td>Published asking-priced lots and QR lookup</td><td>Immutable unique IDs; QR grants no private-data access; manual lookup</td></tr>
+<tr><td>FR04</td><td>Buyer search and negotiated price offers</td><td>Type/kg/grade/arrival filters; positive quantity and proposed price</td></tr>
+<tr><td>FR05</td><td>Farmer acceptance/rejection and reservations</td><td>Atomic availability check; 24-hour expiry; release once</td></tr>
+<tr><td>FR06</td><td>Vehicle visits and slots</td><td>Owned lots, vehicle identity, capacity safety, booking without a buyer</td></tr>
+<tr><td>FR07</td><td>Gate and unloading queue</td><td>Valid transitions, FIFO within eligible zone/slot, dispatch capacity, late/no-show handling</td></tr>
+<tr><td>FR08</td><td>Quality inspection</td><td>Actual kg, grade, damage/time, declared grade retained, rejection and correction history</td></tr>
+<tr><td>FR09</td><td>Buyer purchase confirmation</td><td>Valid unexpired reservation plus inspection; exactly one sale; partial lot sales</td></tr>
+<tr><td>FR10</td><td>Settlements, receipts and payment entries</td><td>Decimal gross/deductions/net; unpaid by default; partial payments; idempotency and reversals</td></tr>
+<tr><td>FR11</td><td>Reference prices</td><td>Manual/CSV entry, produce/market/unit/source/date, missing/stale indication</td></tr>
+<tr><td>FR12</td><td>In-app notifications</td><td>Own unread events; accepted offers, expiry, visit changes, inspection and sale; independent of trade success</td></tr>
+<tr><td>FR13</td><td>Administration and daily reports</td><td>Account/catalog/zone management; sold kg, gross, payments and visits reconcile with records</td></tr>
+<tr><td>FR14</td><td>Audit and corrections</td><td>Actor/time/entity/action/reason; completed financial records corrected through linked reversals</td></tr>
+<tr><td>FR15</td><td>AI system help</td><td>Approved role-visible articles with title/link and version provenance</td></tr>
+<tr><td>FR16</td><td>AI reference-price lookup</td><td>Stored price, source, effective date, unit and freshness; no invented values</td></tr>
+<tr><td>FR17</td><td>AI own queue status</td><td>Authorized visit only; clarify multiple matches; current facts</td></tr>
+<tr><td>FR18</td><td>AI produce search</td><td>Validated bounded filters, visible lots, declared/inspected distinction</td></tr>
+<tr><td>FR19</td><td>AI own reservations</td><td>Fresh owner-authorized status and expiry</td></tr>
+<tr><td>FR20</td><td>AI own trade summary</td><td>Participant-authorized backend totals; receipt never implies payment</td></tr>
+<tr><td>FR21</td><td>AI controlled tool execution</td><td>Allowlisted schemas/tools, identity derived from authentication, no writes or arbitrary execution</td></tr>
+<tr><td>FR22</td><td>AI failure/session control</td><td>Session ownership, history clearing, provider fallback and no fabricated data</td></tr>
+</table>
+<h4>Supporting requirements that must not be lost</h4>
+<ul>
+<li>Several lots may originate from one harvest; several lots may travel in one visit; one lot may support several reservations and sales.</li>
+<li>Availability excludes sold, reserved, lost, withdrawn and correction-held stock. Expired reservations must not consume availability even before cleanup runs.</li>
+<li>Inspection rejection blocks sale. Inspected shortages require explicit reconciliation with affected buyers before confirmation.</li>
+<li>Quantity and money use decimal arithmetic. Currency is LKR; quantity unit is kg. Final money rounds to two decimal places.</li>
+<li>Store agreed prices, deduction amounts and applied rates historically so configuration changes cannot change receipts.</li>
+<li>Reject deductions above gross; do not count the same wastage as both reduced weight and a deduction.</li>
+<li>Confirmation/payment retries use actor-scoped idempotency and request hashes; changed input with the same key conflicts.</li>
+<li>Reference prices are informative, not the sale price. Proposed staleness threshold is 48 hours.</li>
+<li>Queue uses check-in order within eligible zone and slot, with visit ID as tie-breaker. Proposed late grace is 15 minutes.</li>
+<li>Transactions, locks/version checks, foreign keys and uniqueness constraints protect stock, slots, sales and occupancy.</li>
+<li>APIs use <code>/api/v1</code>, validated JSON, pagination, consistent errors and authorization. Appendix C is illustrative, not complete OpenAPI.</li>
+<li>Audit information is application append-only unless stronger tamper protection is actually implemented.</li>
+<li>AI source cards come from backend facts; changing facts are retrieved again. Invalid numeric/status output falls back to deterministic text.</li>
+<li>AI starts in English; translation keys are prepared. Sinhala/Tamil implementation and evaluation are deferred unless explicitly required.</li>
+<li>Proposed AI limits: 1,000 input characters, 10 requests/minute/user, four tool executions and three model calls per turn, 20-second deadline, bounded context/output/retries and configured daily budget.</li>
+<li>Proposed chat retention is seven days, with deletion and clear-history controls. Provider disclosure and retention settings need review before real personal data use.</li>
+</ul>
+<h3>4. Quality and delivery requirements</h3>
+<p>Review IDs below are new tracking labels, not original SRS identifiers.</p>
+<table>
+<tr><th>Review ID</th><th>Source target</th><th>Required evidence</th></tr>
+<tr><td>NFR-01</td><td>Common API p95 &lt;1 second, 25 concurrent users, 10 minutes, 10,000 seeded lots; model requests excluded</td><td>Load script, environment, endpoint mix and latency/error results</td></tr>
+<tr><td>NFR-02</td><td>200 active seeded visits; committed queue changes visible within five seconds</td><td>Contention and refresh tests</td></tr>
+<tr><td>NFR-03</td><td>No overselling, excess slot bookings or duplicate confirmed sales; recorded inspection deficits block trading</td><td>Concurrent reservation/booking/expiry/confirmation tests</td></tr>
+<tr><td>NFR-04</td><td>AI p95 ≤15 seconds with five concurrent chats; fallback by 20 seconds</td><td>Latency and provider-failure results</td></tr>
+<tr><td>NFR-05</td><td>AI ≥36/40 correct or appropriate clarifications; no permission/write-prevention failures</td><td>Fixed evaluation set plus at least 12 adversarial/permission cases</td></tr>
+<tr><td>NFR-06</td><td>Daily encrypted off-host backup; restore ≤4 hours; potential data loss ≤24 hours</td><td>Backup configuration and timed restore record</td></tr>
+<tr><td>NFR-07</td><td>Responsive at 360 px and desktop; keyboard, labels, focus, readable errors and non-colour status cues</td><td>Journey-based accessibility/usability checks</td></tr>
+<tr><td>NFR-08</td><td>Credential protection, minimal personal data, owned chats, redacted logs</td><td>Permission tests and configuration review</td></tr>
+<tr><td>NFR-09</td><td>Connectivity required for writes; safe retry without duplication</td><td>Failed-network/repeated-submit demonstrations</td></tr>
+<tr><td>NFR-10</td><td>Single-host deployment with HTTPS, health checks, secrets and rollback instructions</td><td>Deployment walkthrough; no production HA claim</td></tr>
+</table>
+<p>The SRS also requires migrations, CI, setup documentation, user guidance and a demonstration. These are delivery requirements even though they do not all have FR IDs.</p></section><section class="section" id="rules"><h2>Selected business rules</h2><h3>1. Decision record</h3>
+<table>
+<tr><th>Decision</th><th>Selected rule</th><th>Basis</th></tr>
+<tr><td>D01 Reservation period</td><td>24 hours from farmer acceptance</td><td>User requested at least one day; exact 24-hour duration selected for a clear MVP rule</td></tr>
+<tr><td>D02 Inventory basis</td><td>Auditable quantity adjustments with one authoritative stock balance</td><td>User delegated design choice</td></tr>
+<tr><td>D03 Inspection shortage</td><td>Proportional proposed reductions, explicit buyer consent, no silent quantity changes</td><td>User delegated design choice</td></tr>
+<tr><td>D04 Payments</td><td>Administrator records buyer collections and farmer payouts separately</td><td>User assigned payment handling to administration and delegated details</td></tr>
+<tr><td>D05 Corrections</td><td>Linked reversing records; physical stock restored only after verification</td><td>User delegated design choice</td></tr>
+<tr><td>D06 Unloading capacity</td><td>Explicit unloading bays reserved atomically when a visit is called</td><td>User delegated design choice</td></tr>
+</table>
+<p>These decisions do not add a payment gateway, automated bank transfer, trader role or physical-return workflow.</p>
+<h3>2. Reservation timing — FR05 and FR09</h3>
+<ul>
+<li>On acceptance, <code>expires_at = accepted_at + 24 hours</code>, using server timestamps. Store timestamps consistently and display in Asia/Colombo time.</li>
+<li>An active reservation is valid only while server time is strictly earlier than <code>expires_at</code>. At or after that instant, confirmation fails with an expiry conflict.</li>
+<li>Show the expiry date/time and remaining time to both parties. Acceptance and expiry generate in-app notifications.</li>
+<li>Check-in, inspection, reconciliation and application downtime do not automatically extend the reservation. The MVP does not support extensions; after expiry the buyer submits a new offer and the farmer accepts subject to current availability.</li>
+<li>Warn at booking if the selected arrival slot ends after reservation expiry. A slot is not a promise that unloading and inspection will finish before expiry.</li>
+<li>Booking a visit without any reservation remains allowed. Reserving produce does not automatically book a vehicle slot.</li>
+<li>Expired stock holds stop affecting availability immediately, regardless of cleanup-job timing. Expiry, cancellation and confirmation must not release or consume the same quantity twice.</li>
+<li>Confirmation and expiry serialize on the same reservation/lot records. Use a fresh database time check after acquiring locks; a request that waited beyond expiry must fail.</li>
+<li>One accepted offer creates at most one reservation. Repeated acceptance returns the existing result rather than creating another hold.</li>
+</ul>
+<p>Twenty-four hours is the project default, not a claim that it covers every journey. Validate it with realistic travel, queue and inspection scenarios during user evaluation.</p>
+<h3>3. Stock and inspection reconciliation — FR03, FR05, FR08 and FR09</h3>
+<h4>Authoritative quantities</h4>
+<p>Use kg with three decimal places and decimal arithmetic. Trade quantities must be strictly positive.</p>
+<p>Maintain an auditable stock ledger containing initial registered quantity, signed inspection corrections, subsequent loss/withdrawal adjustments and verified restoration adjustments. Sold quantities and reservation holds are separate allocations, not duplicate stock-ledger deductions.</p>
+<p><code>stock_basis = initial_kg + sum(valid signed stock adjustments)</code>  </p>
+<p><code>unallocated_kg = stock_basis − net_sold_kg − unexpired_held_kg − correction_held_kg</code></p>
+<p>Correction-held kg is stock quarantined after sale reversal pending physical verification. Releasing a verified hold does not also add a positive stock adjustment, which would count the restored quantity twice. Resolving absent goods records a loss/withdrawal and releases the hold in the same transaction.</p>
+<p>Normally <code>unallocated_kg</code> must be nonnegative. A genuine inspection shortage may expose an allocation deficit. Record the measured fact accurately, set <code>RECONCILIATION_REQUIRED</code>, display zero available for purchase and block new reservations and confirmations until the deficit is resolved. Never fabricate stock or reject a genuine measurement just to preserve the allocation invariant. Keep the raw deficit visible to authorized staff.</p>
+<p>Inspection weight means accepted saleable weight for the entire lot before its first sale. The administrator records total measured weight, excluded/unsaleable kg, saleable kg, grade and damage percentage. Damage percentage is descriptive; it does not automatically trigger another stock deduction or monetary charge. Reject invalid measurements, including saleable weight exceeding total weight.</p>
+<p>Example: registered 100 kg, inspected saleable 70 kg. Append a −30 kg correction; stock basis becomes 70 kg. Do not subtract the same 30 kg again as wastage. Reinspection before sales applies only the difference from the previous effective measurement. After any sale, record changes to remaining stock as explicit adjustments; do not reinterpret a measurement of remaining goods as the whole original lot weight.</p>
+<h4>Shortage process</h4>
+<ul>
+<li>Administrator records the measurement and reason. Inspection rejection blocks all sales and cancels unsold active reservations with a notification and audit entry; reopening requires audited reinspection.</li>
+<li>For accepted quality with insufficient saleable stock, place the lot on reconciliation hold. Only administrators may coordinate reconciliation; they cannot rewrite the administrator&#x27;s measurement or impersonate buyer consent.</li>
+<li>Calculate a proposed proportional allocation across all active reservations using their current agreed kg. Round down to 0.001 kg and distribute remaining 0.001 kg increments by acceptance time then reservation ID, without exceeding any original quantity. A zero allocation is cancelled with a reason.</li>
+<li>Each affected buyer explicitly accepts the proposed reduced quantity at the existing unit price or cancels. No response leaves the original hold pending until normal expiry; the lot remains blocked. The farmer sees the changes and receives notifications. Farmer acceptance of the original offer includes this disclosed shortage policy; no price renegotiation is implied.</li>
+<li>Record each accepted reduction as an immutable amendment to the reservation. Recompute deficits transactionally. Expiry/cancellation releases holds normally, and a reconciliation proposal cannot revive an expired reservation.</li>
+<li>Clear the hold when commitments fit the measured stock and no outstanding proposal still requires consent. Any freed surplus becomes available for new offers; do not silently increase a buyer&#x27;s accepted reduced allocation.</li>
+</ul>
+<p>Example: reservations of 60 kg and 40 kg against a lot measured at 80 saleable kg produce proposals of 48 kg and 32 kg. Both buyers must agree, cancel or expire before unresolved proposals stop blocking the lot. If both agree, 80 kg is allocated. If the second cancels and the first agrees, 48 kg remains reserved and 32 kg becomes available.</p>
+<p>One reservation confirms its full currently agreed quantity into exactly one sale. Partial lot sales remain supported through multiple reservations. Arbitrary partial confirmation of a single reservation is outside the MVP.</p>
+<h3>4. Administrator-managed payment records — FR10, FR13 and FR14</h3>
+<p>The application records manual financial activity. Authorized administrators record collections, payouts and corrections after the actual external payment occurs. The application does not initiate money movement.</p>
+<h4>Separate collection from payout</h4>
+<ul>
+<li>Buyer obligation is the sale gross: sold kg × agreed price/kg.</li>
+<li>Farmer entitlement is the sale net: gross minus approved deductions.</li>
+<li>Track buyer collections and farmer payouts separately. A buyer having paid does not mean the farmer has been paid.</li>
+<li>Default deductions to zero. Each deduction needs a category, amount, recipient/purpose and farmer approval before sale confirmation. A commission is not inferred from the existence of the platform; it is allowed only when an explicitly agreed fee exists.</li>
+<li>Snapshot approved deductions and unit price at confirmation. Sum of deductions cannot exceed gross. Reduced sale quantities require reapproval of any changed deduction amounts.</li>
+<li>For the MVP, record farmer payouts only after buyer gross collection is complete, and never above the remaining net entitlement. Partial buyer collections and partial farmer payouts are supported.</li>
+<li>A zero-net settlement has payout state <code>NOT_DUE</code>; do not create a fictitious payment.</li>
+</ul>
+<p>Each entry includes settlement, direction (<code>BUYER_COLLECTION</code> or <code>FARMER_PAYOUT</code>), positive LKR amount, method (cash/bank/other), actual payment time, recording time, actor, payer/payee, reference/evidence note and idempotency key. Bank payments require an external reference; cash requires a receipt/reference number. File uploads are deferred; evidence references and notes are mandatory.</p>
+<p>Compute each direction&#x27;s status independently as unpaid, partially paid or paid from valid entries less linked reversals. Reject overcollection and overpayment; administrators cannot mark a settlement paid using a status toggle. Snapshot money to two decimal places using a documented decimal half-up rounding rule.</p>
+<p>Keep these report values distinct: gross trade value, buyer collections, approved deductions, farmer payouts and outstanding balances. Deductions are not automatically platform revenue.</p>
+<p>Example: 1,500 kg × LKR 45 = LKR 67,500 gross. Approved deductions of LKR 1,500 yield LKR 66,000 net. Once LKR 67,500 is collected, a LKR 30,000 farmer payout leaves LKR 36,000 payable. The buyer side is paid; the farmer side is partially paid.</p>
+<h3>5. Corrections and reversals — FR09, FR10 and FR14</h3>
+<ul>
+<li>Never delete or overwrite completed sales, settlements, inspections or payment entries. Link correction entries to originals and preserve actor, time, reason and evidence.</li>
+<li>Payment-entry reversals correct incorrectly recorded evidence; they do not prove that money was refunded or recovered. A true refund or physical return requires a separately approved future workflow. Do not describe a correction as an actual transfer.</li>
+<li>Reversals cannot exceed the unreversed amount of their original entry. Concurrent corrections serialize on the settlement. Repeated requests with the same idempotency key return the original correction result.</li>
+<li>For an erroneous sale, an administrator opens a correction case. Freeze further payments on that sale. If valid money movement already occurred, leave the case unresolved for external resolution; never erase true collections/payouts merely to enable cancellation.</li>
+<li>If financial entries themselves were erroneous, correct them through linked entries. Only when no valid payment movement remains may the administrator fully reverse the erroneous sale and settlement, then create a new correctly agreed transaction if necessary. Partial sale reversals are deferred for MVP simplicity.</li>
+<li>Reversing the sale does not reactivate its reservation or automatically return stock to availability. Move the reversed quantity to a correction hold. An administrator physically verifies whether it is physically present and saleable; the administrator releases verified stock or records the corresponding loss/withdrawal. This prevents phantom stock after goods have left.</li>
+<li>Reports retain originals and show signed corrections by their effective correction date, with links to the original transaction. Show gross sales, reversals and net sales separately; do not silently rewrite historical daily totals.</li>
+</ul>
+<h3>6. Unloading-bay allocation — FR06 and FR07</h3>
+<ul>
+<li>Model each zone&#x27;s unloading capacity as explicit enabled bays. Booking capacity per slot is a separate limit from simultaneous unloading capacity.</li>
+<li>The administrator calls the earliest eligible checked-in visit by check-in timestamp, then visit ID. Any permitted priority override requires a reason and audit entry.</li>
+<li>Calling a visit atomically reserves one free bay and changes the visit from <code>ARRIVED</code> to <code>CALLED</code>. Enforce at most one active visit per bay and one bay per visit at database level.</li>
+<li><code>CALLED</code> and <code>UNLOADING</code> both occupy the bay. Moving to <code>UNLOADING</code> records actual unloading start without acquiring a second bay.</li>
+<li>Completion releases the bay and records unloading completion. Departure is a separate timestamp after completion and does not keep the bay occupied.</li>
+<li>If a called vehicle does not respond, the administrator may explicitly recall it to <code>ARRIVED</code>, release the bay and record a reason. Set it temporarily ineligible until the administrator marks it ready, preserving its original arrival timestamp for ordering once ready. No automatic timeout releases a potentially occupied bay.</li>
+<li>Do not cancel, disable or reassign an occupied bay without an explicit audited operational resolution. Application restarts preserve occupancy; the administrator reconciles it with the physical site.</li>
+<li>Use a transaction and database constraints/locks for allocation, release and recall. A losing concurrent call receives a conflict and refreshed availability.</li>
+</ul>
+<h3>7. Required design and acceptance updates</h3>
+<p>Add to the ERD/data dictionary: stock adjustments, reconciliation cases/proposals, immutable reservation amendments, approved deduction snapshots, directional payment entries, payment reversals, sale correction cases, stock correction holds, unloading bays and active allocations. Store authoritative balances or derive them consistently; cached totals must not become independent sources of truth.</p>
+<p>Add corresponding APIs, screens, permissions and audit events. Farmers see revised stock and deduction proposals; buyers see shortage consent and 24-hour expiry; administrators see separate collections/payouts and correction cases; administrators see reserved/occupied bays.</p>
+<p>Required tests:</p>
+<ul>
+<li>Reservation accepted at 10:00 expires at 10:00 the next day; confirmation just before expiry may succeed, at expiry must fail.</li>
+<li>Concurrent expiry and confirmation commit one outcome with no duplicate stock effect.</li>
+<li>A 100-to-70 kg inspection correction applies once and blocks overallocated sales without hiding the measured deficit.</li>
+<li>The 60/40-to-48/32 shortage example requires consent and handles cancellation, expiry and rounding without overallocating stock.</li>
+<li>Buyer collection does not change farmer payout status; duplicate and excess payments are rejected.</li>
+<li>Unapproved deductions cannot enter a confirmed settlement; no deduction exceeds gross.</li>
+<li>Sale reversal never automatically makes absent goods available and never silently cancels real payments.</li>
+<li>Two simultaneous calls for one free bay produce exactly one allocation; restart preserves occupancy.</li>
+<li>Recall releases one allocation once and prevents immediate redispatch while the visit is marked unready.</li>
+<li>Farmers and buyers cannot record administrator-only financial corrections or payments.</li>
+</ul></section><section class="section" id="design"><h2>System design and verification</h2><h3>Detailed design decisions</h3>
+<h4>Identity and access</h4>
+<p>Public self-registration creates a farmer or buyer profile; staff roles are provisioned by an administrator. The role catalog contains FARMER, BUYER and ADMINISTRATOR only; each action checks role and ownership. An actor cannot accept their own buyer offer through another role. Administrators do not bypass inspection or buyer consent. Suspended accounts cannot sign in or perform normal mutations; authorized staff resolve their existing commitments without impersonating them. Use expiring sessions, credential hashing, revocation and a verified recovery mechanism. The exact authentication library and recovery delivery mechanism are implementation selections.</p>
+<table>
+<tr><th>Action</th><th>Farmer</th><th>Buyer</th><th>Administrator</th></tr>
+<tr><td>Publish lot / edit asking price</td><td>Own</td><td>No</td><td>No impersonation</td></tr>
+<tr><td>Submit price offer</td><td>No</td><td>Own</td><td>No impersonation</td></tr>
+<tr><td>Accept/reject offer</td><td>Own lot</td><td>No</td><td>No impersonation</td></tr>
+<tr><td>Shortage consent / purchase confirmation</td><td>No</td><td>Own</td><td>Coordinate only</td></tr>
+<tr><td>Approve deductions</td><td>Own</td><td>View agreement</td><td>Propose / record</td></tr>
+<tr><td>Book visit</td><td>Own</td><td>No</td><td>Rebook with reason</td></tr>
+<tr><td>Slots / check-in / call / unload</td><td>No</td><td>No</td><td>Yes, audited</td></tr>
+<tr><td>Inspection / reinspection / verify stock</td><td>No</td><td>No</td><td>Yes, audited</td></tr>
+<tr><td>Payments / corrections</td><td>No</td><td>No</td><td>Yes, audited</td></tr>
+<tr><td>Accounts / catalog / source prices</td><td>No</td><td>No</td><td>Yes</td></tr>
+<tr><td>Reports / audit</td><td>Own history</td><td>Own history</td><td>Market-wide</td></tr>
+<tr><td>Assistant / chat</td><td>Own scope</td><td>Own scope</td><td>Authorized scope</td></tr>
+</table>
+<h4>Additional MVP policies</h4>
+<p>These are design defaults selected to complete the documentation, not claims of validated market practice. Review them during stakeholder walkthroughs.</p>
+<ul>
+<li>Offers use PENDING → ACCEPTED, REJECTED or CANCELLED. Buyer cancellation is allowed before acceptance. Acceptance creates one reservation; accepted quantities/prices change only through the documented shortage amendment or a new offer.</li>
+<li>Unit prices must be greater than zero, resolving the earlier positive/nonnegative inconsistency. LKR values use NUMERIC(16,2); kg uses NUMERIC(14,3). Reject excessive precision and out-of-range values at the API boundary.</li>
+<li>Farmers select an available slot; the UI suggests the earliest suitable slot. Slot times are half-open intervals [start,end). Booking checks capacity transactionally. Early check-in waits for slot eligibility; arrivals later than slot start plus 15 minutes require an administrator&#x27;s audited rebooking. Mark a still-booked vehicle no-show after slot end plus 15 minutes. These timings remain configurable operational defaults.</li>
+<li>A lot can be attached to only one nonterminal visit at a time. Later visits may carry unsold stock after the earlier visit completes. Visits require one or more owned lots. Each visit belongs to one farmer and vehicle; mixed-owner transport is deferred.</li>
+<li>Lot states: DRAFT → REGISTERED → INSPECTED → CLOSED. Rejection uses REJECTED; only audited reinspection can reopen. Reconciliation and correction holds block relevant stock independently of the lifecycle state. Close only when no stock or unresolved allocation remains.</li>
+<li>Grades are configured per produce type and selected by administrators; rejection requires a reason. Actual grade thresholds require stakeholder input and are not invented by this document.</li>
+<li>Reference-price CSV fields: produce code, market, unit (kg), effective date/time, source, price or minimum/maximum. Require nonnegative values and min ≤ max; reject rows with both single price and range. Preview errors before atomic import; duplicate source/date/type/market/unit records require an explicit audited replacement. Staleness is age greater than 48 hours, using source effective time.</li>
+<li>Notifications persist from committed domain events and deduplicate on event/recipient/type. Delivery failure retries without undoing a trade. Users can read/mark only their own notifications.</li>
+<li>Daily reports use Asia/Colombo calendar dates and an exclusive next-day end. Sales use confirmation time, payments use actual payment time and reversals use correction effective time. Store recording time separately for audit.</li>
+<li>No personal bank account details are needed in the MVP. Keep contact data access restricted. Chat retention is seven days; transactional/audit retention requires an explicit deployment policy before real use. Account deletion must not erase linked financial history.</li>
+</ul>
+<h4>API contract inventory</h4>
+<p>All endpoints are under /api/v1 and require authentication except the explicitly selected registration/login/recovery endpoints. IDs never grant authority. Use 400 validation, 401 unauthenticated, 403 forbidden, 404 absent/inaccessible where appropriate, 409 state conflict, 429 rate limit and 503 unavailable. List endpoints use bounded limit/offset. Errors contain code, message, safe details and traceId.</p>
+<table>
+<tr><th>Resource / operations</th><th>Authorization and transactional rule</th></tr>
+<tr><td>/auth/register, /auth/login, /auth/logout, /auth/recovery</td><td>Vetted identity workflow; rate limit; staff cannot self-enrol</td></tr>
+<tr><td>GET/PATCH /me; /admin/users and role/status actions</td><td>Own profile; privileged admin lifecycle</td></tr>
+<tr><td>POST/GET /harvests; POST /harvests/{id}/lots</td><td>Farmer ownership; positive quantity</td></tr>
+<tr><td>GET /lots and /lots/{id}; GET /lots/{id}/qr</td><td>Listing visibility and private field filtering</td></tr>
+<tr><td>POST /lots/{id}/offers; POST /offers/{id}/accept or /reject or /cancel</td><td>Ownership; lock offer/lot on acceptance</td></tr>
+<tr><td>GET /reservations; POST /reservations/{id}/cancel or /confirm</td><td>Participant view; buyer confirms; idempotency required</td></tr>
+<tr><td>GET /slots; POST /visits; POST /visits/{id}/cancel or /rebook</td><td>Owned lots; capacity locks; rebooking administrator audit</td></tr>
+<tr><td>POST /visits/{id}/check-in, /call, /start-unloading, /complete, /recall, /ready, /depart</td><td>Administrator; bay allocation and state checks</td></tr>
+<tr><td>POST /lots/{id}/inspections; GET inspection history</td><td>Administrator; immutable measurements and adjustments</td></tr>
+<tr><td>GET /reconciliations/{id}; POST proposals; POST proposal /accept or /cancel</td><td>Admin coordinates; buyer consent only</td></tr>
+<tr><td>POST /lots/{id}/deduction-proposals; POST /deduction-proposals/{id}/approve</td><td>Admin proposes; farmer approves before confirmation</td></tr>
+<tr><td>GET /sales/{id}/receipt; POST /settlements/{id}/payments</td><td>Participants read; administrator records directional payment</td></tr>
+<tr><td>POST /payments/{id}/reversals; POST /sales/{id}/correction-cases</td><td>Admin only; linked evidence and idempotency</td></tr>
+<tr><td>POST /correction-cases/{id}/verify-stock or /resolve</td><td>Administrator verifies; administrator resolves under correction policy</td></tr>
+<tr><td>GET /market/prices; POST /admin/prices/import-preview or /import</td><td>Dated public-to-signed-in prices; admin imports</td></tr>
+<tr><td>GET /notifications; PATCH /notifications/{id}/read</td><td>Recipient ownership</td></tr>
+<tr><td>GET /reports/daily; GET /admin/audit</td><td>Authorized admin; consistent date filters</td></tr>
+<tr><td>POST /assistant/chat; GET/DELETE /assistant/sessions/{id}/messages</td><td>Owned session; deletion API may clear messages; session deletion also supported</td></tr>
+<tr><td>DELETE /assistant/sessions/{id}</td><td>Delete own retained session/history</td></tr>
+</table>
+<p>Final machine-readable OpenAPI schemas remain an implementation deliverable. This inventory establishes coverage, not a claim that endpoints exist.</p>
+<h4>Data dictionary and relationship supplement</h4>
+<p>All primary IDs are immutable UUIDs. Timestamps use timezone-aware database values. Foreign keys must not cascade-delete financial or audit history. Store status values as constrained enums/checks; expose no mass-assignment of privileged fields.</p>
+<table>
+<tr><th>Entity</th><th>Required fields / relationship and constraints</th></tr>
+<tr><td>users, roles, user_roles</td><td>Identity/contact/status; composite user/role uniqueness; protected credential hash</td></tr>
+<tr><td>farmer_profiles, buyer_profiles</td><td>Unique user FK; minimum role-specific profile fields</td></tr>
+<tr><td>produce_types, grades</td><td>Produce code unique; grade belongs to produce; disable used catalog entries instead of deletion</td></tr>
+<tr><td>harvests</td><td>Farmer and produce FKs; expected kg &gt;0; planned arrival</td></tr>
+<tr><td>lots</td><td>Harvest FK; asking_price_per_kg &gt;0 on publish; price_version/published_at; opaque lookup token; state; stock basis</td></tr>
+<tr><td>offers</td><td>Lot/buyer FKs; quantity and offered price &gt;0; asking-price snapshot/version; status and acceptance time</td></tr>
+<tr><td>reservations</td><td>Unique offer FK; agreed kg; accepted/expires timestamps; terminal state</td></tr>
+<tr><td>reservation_amendments</td><td>Reservation and proposal FKs; old/new kg, buyer, consent time; immutable</td></tr>
+<tr><td>inspections</td><td>Lot/administrator FKs; total/saleable/excluded kg; grade; damage 0..100; optional superseded inspection FK</td></tr>
+<tr><td>stock_adjustments</td><td>Lot/actor FKs; signed kg, kind, reason; inspection/correction reference; immutable</td></tr>
+<tr><td>reconciliation_cases</td><td>Lot/inspection FKs; coordinator, state, deficit; at most one active case per lot</td></tr>
+<tr><td>reconciliation_proposals</td><td>Case/reservation FKs; original/proposed kg, response and time; no revival after expiry</td></tr>
+<tr><td>deduction_proposals</td><td>Lot/reservation reference; category, amount, purpose; farmer approval/version</td></tr>
+<tr><td>sales, settlements, settlement_deductions</td><td>Unique reservation→sale→settlement chain; frozen kg/price/gross/net; deduction snapshots</td></tr>
+<tr><td>payment_entries</td><td>Settlement FK; direction, amount, payer/payee, method, evidence, times, actor; optional reversal FK</td></tr>
+<tr><td>sale_correction_cases, sale_reversals</td><td>Sale FK, reason, financial resolution, status; one full reversal maximum</td></tr>
+<tr><td>stock_correction_holds</td><td>Reversal/lot FKs; kg held, inspection verification and resolution; no automatic availability</td></tr>
+<tr><td>vehicles</td><td>Registration identifier normalized/unique; display registration</td></tr>
+<tr><td>zones, slots</td><td>Zone FK; starts/ends, booking limit; end &gt; start; nonnegative capacities</td></tr>
+<tr><td>visits, visit_lots</td><td>Farmer/vehicle/slot FKs; lifecycle timestamps; composite visit/lot key; owned-lot validation</td></tr>
+<tr><td>unloading_bays, bay_allocations</td><td>Zone FK; bay/visit FKs; allocation/release timestamps; partial uniqueness for active allocation</td></tr>
+<tr><td>market_prices</td><td>Produce/source/market/unit/effective date key; price or range; imported_at and revision audit</td></tr>
+<tr><td>notifications, domain_events</td><td>Recipient/event/type deduplication; read time; retry metadata for committed events</td></tr>
+<tr><td>audit_events</td><td>Actor, entity, action, reason, recorded time, safe change summary; append-only application permissions</td></tr>
+<tr><td>idempotency_records</td><td>Actor/operation/key unique; request hash, outcome, response; financial keys retained with records</td></tr>
+<tr><td>chat_sessions, chat_messages</td><td>User→session→messages; expiry and clear history; parent ownership checked</td></tr>
+<tr><td>assistant_runs, help_articles</td><td>Redacted usage/latency/model/prompt metadata; versioned published role-visible help</td></tr>
+</table>
+<p>Index active reservations by lot/expiry, visits by slot/state, sales by date, and payment entries by settlement. Use deterministic lock ordering for lot/reservation/payment operations. Exact migration DDL and query plans are verified during implementation.</p>
+<h4>Screen and interaction specification</h4>
+<p>Farmer: dashboard, profile, harvest form, lot detail/QR, offers, visit booking/queue, shortage outcomes, deduction approval and receipts. Buyer: search/filter, lot details, offer form, reservations/expiry, shortage consent, purchase confirmation and purchase history. Administrator: slot capacity, arrivals, check-in/manual lookup, bay board, departure, lot lookup, measurement form, inspection history, correction-stock verification, accounts/catalog, source prices/import preview, reconciliation, collections/payouts, corrections, reports and audit. Shared: login, notifications and source-backed chat with clear-history control.</p>
+<p>Every form needs labelled fields, error summary, pending/submitted state and safe retry. Show empty, unavailable, expired, conflict and denied states. Always distinguish declared vs inspected grade and buyer collection vs farmer payout status. Provide keyboard focus and non-colour status labels at 360 px and desktop widths.</p>
+<h4>Security and privacy design</h4>
+<p>Enforce server-side roles and ownership on every route and tool. Parameterize queries; validate DTOs; restrict CORS; protect cookie-authenticated writes against CSRF. Escape user/model content and disable raw HTML chat rendering. Keep secrets outside source and browser bundles. Use TLS, encrypted backups, controlled contact-data access and redacted logs. QR identifiers convey lookup identity only. Explain model-provider disclosure; clearing local chat does not delete provider logs. Evaluate with synthetic data until data-use settings and operational retention are agreed.</p>
+<h4>Verification and acceptance evidence</h4>
+<p>All tests currently have status NOT RUN: documentation is not implementation evidence. For each FR01–FR22 map its row in the requirement inventory to a named integration/E2E test, actual result and evidence path. Run ownership denial cases as well as normal paths.</p>
+<table>
+<tr><th>Test group</th><th>Coverage / expected result</th></tr>
+<tr><td>T01 Identity</td><td>FR01–03: own registration/harvest/QR; cross-owner and disabled-account denial</td></tr>
+<tr><td>T02 Trade</td><td>FR04–05: competing 80 kg holds on 100 kg, positive price, repeated acceptance, 24-hour boundary</td></tr>
+<tr><td>T03 Operations</td><td>FR06–07: last slot conflict, one bay/two callers, late/no-show/rebooking, recall and restart</td></tr>
+<tr><td>T04 Inspection</td><td>FR08: reject, 100→70 kg shortage, 60/40→48/32 consent, cancellation/expiry during reconciliation</td></tr>
+<tr><td>T05 Finance</td><td>FR09–10/14: one sale per reservation, idempotency, approved deductions, directional payments, reversals and stock hold</td></tr>
+<tr><td>T06 Administration</td><td>FR11–14: invalid/duplicate CSV, stale source, own notifications, signed report correction totals and audit</td></tr>
+<tr><td>T07 Assistant</td><td>FR15–22: 40 functional questions plus at least 12 permission/adversarial cases; zero unauthorized reads/writes</td></tr>
+<tr><td>T08 Quality</td><td>NFR-01–10: load, keyboard/mobile journeys, network retry, backup restore and graceful AI outage</td></tr>
+</table>
+<p>AI functional set: 8 help, 6 price, 6 queue, 6 produce, 4 reservation, 4 trade and 6 ambiguous/unavailable questions. Require ≥36 appropriate/correct outcomes from 40, with all permission/write-prevention tests passing. Record model, prompt version, latency, tokens, sources and expected fixture facts. Test provider outage, stale prices, injected instructions and changed stock.</p>
+<p>For API load use a documented endpoint mix, seeded identities and hardware, 25 concurrent users for 10 minutes and 10,000 lots. Report p95 and error rates, with model latency separately. Declare the mix and allowable error threshold before measurement; do not present an invented benchmark.</p>
+<h4>Deployment and recovery plan</h4>
+<p>Use local Docker Compose, versioned database migrations and CI builds/tests. Deploy a single-host demonstration environment with HTTPS, restricted database access, secrets, health endpoints and structured logs. Back up daily to encrypted off-host storage; demonstrate restore to a clean database and verify record counts and sample balances. Target ≤4-hour restoration and ≤24-hour data loss. Keep prior application images and migration compatibility notes; do not promise destructive migration rollback. Record actual commands, environment and timings when implementation exists.</p>
+<h4>Risks and remaining validation</h4>
+<p>The 22-week duration depends on actual weekly hours and submission date. Validate market grading rules, late-arrival policy, 24-hour travel feasibility and administrator payment responsibilities with stakeholders. Confirm assessment architecture/language expectations. Price source access/reuse, hosted-model settings/budget and transaction retention remain external decisions. No production SLA, verified congestion reduction or legal compliance is claimed.</p></section><section class="section" id="plan"><h2>Implementation and delivery plan</h2><h3>7. Suggested updates to the 22-week plan</h3>
+<p>Keep the source schedule as a provisional baseline. Improve its exit conditions rather than adding more features.</p>
+<table>
+<tr><th>Weeks</th><th>Focus</th><th>Exit condition</th></tr>
+<tr><td>1–2</td><td>Validation, policy decisions, SRS/design foundation and backlog</td><td>Selected business rules reviewed; MVP boundary, permissions, state diagrams, ERD and core wireframes reviewed</td></tr>
+<tr><td>3–4</td><td>Identity, profiles, migrations and CI</td><td>Three demo roles; role/ownership denial and account lifecycle checks</td></tr>
+<tr><td>5–6</td><td>Harvests, lots, QR and buyer search</td><td>Farmer-created lot discoverable under visibility rules</td></tr>
+<tr><td>7–8</td><td>Offers, reservations, expiry and inventory</td><td>Competing reservation, repeated acceptance and expiry races verified</td></tr>
+<tr><td>9–10</td><td>Visits, slots, queue and unloading</td><td>Slot and bay concurrency, late/no-show/rebooking cases verified</td></tr>
+<tr><td>11–12</td><td>Inspection, reconciliation, sale, settlement and payments</td><td>Full journey plus shortage/rejection/correction/partial-payment cases verified</td></tr>
+<tr><td>13–14</td><td>Prices, notifications, reports and admin</td><td>Import behavior, notification ownership and financial/report reconciliation verified</td></tr>
+<tr><td>15–16</td><td>Read-only assistant</td><td>Six question types with validated tools, sources, isolation and fallback</td></tr>
+<tr><td>17–18</td><td>Integrated acceptance and measured quality</td><td>Core tests, security, load, accessibility and AI evaluation results recorded</td></tr>
+<tr><td>19–20</td><td>Deployment and operational readiness</td><td>Repeatable deployment, restore evidence, rollback instructions and user guide</td></tr>
+<tr><td>21–22</td><td>Contingency and assessment</td><td>Defects resolved, demo rehearsed and final report complete</td></tr>
+</table>
+<p>Start audit instrumentation, authorization and tests with each feature, not at the end. Run a minimal deployment early, then complete production-like demonstration configuration in weeks 19–20. Maintain documentation every week rather than postponing it to the delivery phase.</p>
+<p>Weeks 11–12 carry substantial risk because inspection discrepancies, financial reversal and payment behavior are complex. Re-estimate after the decisions; use contingency if needed rather than quietly dropping required features. Optional CSV report export, richer charts and downloadable labels can be postponed. The read-only AI assistant remains required in the supplied baseline.</p>
+<p>The existing proposed modular Spring Boot backend, Next.js frontend and PostgreSQL database can remain the planning baseline, subject to the assessment constraint already noted in the SRS. This review does not select dependency versions or verify current vendor compatibility.</p>
+<h3>8. Scope boundaries to preserve</h3>
+<p>Required: the three roles, complete produce-to-payment-record journey, safe reservations and capacity, inspection, dated prices, notifications, reports, audit, six read-only AI question types, deployment and restore demonstration.</p>
+<p>Optional: CSV report export, dedicated demo mode, richer charts and downloadable lot labels. Reference-price CSV import is already part of the baseline and must not be confused with optional report export.</p>
+<p>Deferred: trader/stall workflows, counter-offers, broadcast matching, SMS/push, mobile apps, full localization, offline writes, forecasting, payment gateways, multiple markets, microservices, message broker and Kubernetes.</p></section><section class="figure" id="diagrams"><h2>Figure 1. System architecture</h2><img src="../diagrams/01-architecture.svg" alt="System architecture"><p class="caption">Logical deployment and trust boundaries. Provider access occurs only through the backend adapter.</p></section><section class="figure" id="02-use-cases"><h2>Figure 2. Use-case diagram — three roles</h2><img src="../diagrams/02-use-cases.svg" alt="Use-case diagram — three roles"><p class="caption">Administrator includes market operations and inspection recording. Farmer and buyer decisions remain their own; negotiation is by private offers, not an auction.</p></section><section class="figure" id="03-erd-trade"><h2>Figure 3. ERD — produce and trade</h2><img src="../diagrams/03-erd-trade.svg" alt="ERD — produce and trade"><p class="caption">Core logical relationships. One lot supports multiple offers and sales; there is no single buyer_id on a lot. A confirmed sale creates one settlement atomically.</p></section><section class="figure" id="04-erd-operations"><h2>Figure 4. ERD — visits and inspection</h2><img src="../diagrams/04-erd-operations.svg" alt="ERD — visits and inspection"><p class="caption">Bookings and simultaneous bay capacity are different constraints. VISIT_LOTS resolves the many-to-many lot/visit relationship. At most one active inspection-shortage case per lot.</p></section><section class="figure" id="05a-sequence-negotiation"><h2>Figure 5. Sequence — asking price and buyer negotiation</h2><img src="../diagrams/05a-sequence-negotiation.svg" alt="Sequence — asking price and buyer negotiation"><p class="caption">Time progresses downward; return messages are dashed. Failure branches are stated alongside the flow.</p></section><section class="figure" id="05-sequence-reservation"><h2>Figure 6. Sequence — reservation acceptance</h2><img src="../diagrams/05-sequence-reservation.svg" alt="Sequence — reservation acceptance"><p class="caption">Time progresses downward; return messages are dashed. Failure branches are stated alongside the flow.</p></section><section class="figure" id="06-sequence-sale"><h2>Figure 7. Sequence — inspection-qualified purchase</h2><img src="../diagrams/06-sequence-sale.svg" alt="Sequence — inspection-qualified purchase"><p class="caption">Time progresses downward; return messages are dashed. Failure branches are stated alongside the flow.</p></section><section class="figure" id="07-sequence-ai"><h2>Figure 8. Sequence — authorized AI answer</h2><img src="../diagrams/07-sequence-ai.svg" alt="Sequence — authorized AI answer"><p class="caption">Time progresses downward; return messages are dashed. Failure branches are stated alongside the flow.</p></section><section class="figure" id="08-activity"><h2>Figure 9. Activity — produce to settlement</h2><img src="../diagrams/08-activity.svg" alt="Activity — produce to settlement"><p class="caption">Main path with inspection exceptions. Visit booking can also occur before or without a reservation. Payments require actual external payment evidence.</p></section><section class="figure" id="09-states"><h2>Figure 10. State diagrams — reservations and visits</h2><img src="../diagrams/09-states.svg" alt="State diagrams — reservations and visits"><p class="caption">Terminal reservations are never reused. All transitions validate actor, current state and concurrency constraints.</p></section><section class="section" id="references"><h2>Sources and revision record</h2><p>Primary source: Dambulla_AgriFlow_Complete_Requirements_v1.3 (1).docx, draft dated 31 October 2026, supplied in the project folder.</p><p>Current editable source: docs/project-documentation-v1.5.md. This source consolidates the requirements and subsequent role, reservation and negotiation decisions. User decisions: at least a day for reservations; administration handles payment records; remaining principal policies delegated for selection.</p><p>Version 1.5 consolidates those requirements, selects the 24-hour rule, defines inspection shortages, separates collection/payout, specifies correction holds and atomic bay allocation, and adds diagrams and implementation coverage. Additional MVP defaults are explicitly identified as design choices requiring walkthrough validation.</p><p>External references listed in the original SRS are not treated as verified integration contracts. Current library versions, model pricing and price-data access are intentionally not asserted here.</p><h3>Deliverable status</h3><p>Completed: requirements/design document and editable SVG diagrams. Pending implementation: source code, migrations, machine-readable OpenAPI, detailed wireframe assets, observed test results, operational commands, deployment and measured backup restoration. Pending stakeholder review: grading thresholds, operational defaults, real payment process, retention, deadline and assessment constraints.</p><h3>How to maintain this document</h3><p>Edit the Markdown inputs and docs/tools/build_documentation.py, run the generator, then export the generated HTML to PDF. SVG diagrams are editable vector files. Keep requirement IDs stable and update diagrams, acceptance conditions and timeline when business rules change.</p></section></body></html>

@@ -1,0 +1,150 @@
+Path,Category,ReviewMethod,Role,RelatedStages
+.editorconfig,source/config,text-reviewed,Project source or configuration,00;01
+.env.example,source/config,text-reviewed,Project source or configuration,00;01
+.github/workflows/verify.yml,source/config,text-reviewed,Project source or configuration,00;01
+.gitignore,source/config,text-reviewed,Project source or configuration,00;01
+Dambulla_AgriFlow_Complete_Requirements_v1.3 (1).docx,binary/source-or-generated,document-text-reviewed,Original requirement document or generated visual/output,00
+README.md,source/config,text-reviewed,Project source or configuration,00;01
+backend/.dockerignore,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/README.md,source/config,text-reviewed,Project source or configuration,00;01
+backend/analytics-ai-service/Dockerfile,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/analytics-ai-service/README.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/analytics-ai-service/pom.xml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/analytics-ai-service/src/main/java/lk/agriflow/assistant/SecurityConfiguration.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/analytics-ai-service/src/main/java/lk/agriflow/assistant/ServiceApplication.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/analytics-ai-service/src/main/resources/application.yml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/Dockerfile,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/README.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/pom.xml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/src/main/java/lk/agriflow/gateway/FoundationController.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/src/main/java/lk/agriflow/gateway/SecurityConfiguration.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/src/main/java/lk/agriflow/gateway/ServiceApplication.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/src/main/resources/application.yml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/api-gateway/src/test/java/lk/agriflow/gateway/FoundationGatewayTest.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/auth-iam-service/Dockerfile,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/auth-iam-service/README.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/auth-iam-service/pom.xml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/auth-iam-service/src/main/java/lk/agriflow/identity/SecurityConfiguration.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/auth-iam-service/src/main/java/lk/agriflow/identity/ServiceApplication.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/auth-iam-service/src/main/resources/application.yml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/common-contracts/README.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/common-contracts/pom.xml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/common-contracts/src/main/java/lk/agriflow/contracts/package-info.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/market-core-service/Dockerfile,source/config,text-reviewed,Project source or configuration,00;01
+backend/market-core-service/README.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/market-core-service/pom.xml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/market-core-service/src/main/java/lk/agriflow/AgriflowApplication.java,source/config,text-reviewed,Backend foundation source,01;02
+backend/market-core-service/src/main/java/lk/agriflow/catalog/api/CatalogController.java,source/config,text-reviewed,Read-only catalog vertical slice,01;04
+backend/market-core-service/src/main/java/lk/agriflow/catalog/application/CatalogService.java,source/config,text-reviewed,Read-only catalog vertical slice,01;04
+backend/market-core-service/src/main/java/lk/agriflow/catalog/domain/ProduceCatalog.java,source/config,text-reviewed,Read-only catalog vertical slice,01;04
+backend/market-core-service/src/main/java/lk/agriflow/catalog/domain/ProduceType.java,source/config,text-reviewed,Read-only catalog vertical slice,01;04
+backend/market-core-service/src/main/java/lk/agriflow/catalog/infrastructure/JdbcProduceCatalog.java,source/config,text-reviewed,Read-only catalog vertical slice,01;04
+backend/market-core-service/src/main/java/lk/agriflow/config/MessagingConfiguration.java,source/config,text-reviewed,RabbitMQ event and dead-letter topology,01;16;17
+backend/market-core-service/src/main/java/lk/agriflow/config/SecurityConfiguration.java,source/config,text-reviewed,Closed-route security foundation; no accounts,01;03
+backend/market-core-service/src/main/java/lk/agriflow/shared/ApiExceptionHandler.java,source/config,text-reviewed,Backend foundation source,01;02
+backend/market-core-service/src/main/java/lk/agriflow/shared/SystemController.java,source/config,text-reviewed,Backend foundation source,01;02
+backend/market-core-service/src/main/resources/application.yml,source/config,text-reviewed,Backend foundation source,01;02
+backend/market-core-service/src/main/resources/db/migration/V1__create_produce_catalog.sql,source/config,text-reviewed,Initial produce catalog schema and seed,01;04
+backend/market-core-service/src/test/java/lk/agriflow/CatalogIntegrationTest.java,source/config,text-reviewed,Existing integration test source; execution not established,01
+backend/notification-service/Dockerfile,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/notification-service/README.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/notification-service/pom.xml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/notification-service/src/main/java/lk/agriflow/notifications/MessagingConfiguration.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/notification-service/src/main/java/lk/agriflow/notifications/SecurityConfiguration.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/notification-service/src/main/java/lk/agriflow/notifications/ServiceApplication.java,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/notification-service/src/main/resources/application.yml,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+backend/pom.xml,source/config,text-reviewed,Project source or configuration,00;01
+compose.yaml,source/config,text-reviewed,Project source or configuration,00;01
+contracts/openapi/agriflow.yaml,source/config,text-reviewed,Implemented foundation API contract only,01;02
+docs/README.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/architecture/001-application-foundation.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/architecture/002-rabbitmq.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/architecture/003-separate-backend-services.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+docs/development/README.md,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
+docs/development/decision-register.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+docs/development/file-inventory.csv,documentation,generated-inventory,This source and artifact review index,00
+docs/development/member-guide.md,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
+docs/development/progress.md,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
+docs/development/repository-review.md,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
+docs/development/state-transition-review.md,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+docs/development/work-board.csv,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+docs/diagrams/01-architecture.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/02-use-cases.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/03-erd-trade.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/04-erd-operations.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/05-sequence-reservation.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/05a-sequence-negotiation.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/06-sequence-sale.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/07-sequence-ai.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/08-activity.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/09-states.svg,generated-diagram,xml-structure-checked-source-reviewed,Diagram generated from documentation builder,00;24
+docs/diagrams/README.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/folder-structure.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/operations/local-development.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/output/Dambulla_AgriFlow_Project_Documentation_v1.5.html,generated-documentation,html-structure-text-and-local-links-reviewed,HTML derived from consolidated requirements and diagrams,00;24
+docs/output/Dambulla_AgriFlow_Project_Documentation_v1.5.pdf,binary/source-or-generated,metadata-only,Original requirement document or generated visual/output,00;24
+docs/output/roles-v1.5-preview.png,binary/source-or-generated,metadata-only,Original requirement document or generated visual/output,00;24
+docs/project-documentation-v1.5.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/requirements-review.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/srs-v1.4-business-rules.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/srs-v1.5-roles-and-negotiation.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/system-design.md,documentation,text-reviewed,Design or operational documentation,00;24
+docs/testing/evidence/stage-00.md,source/config,stage-00-static-review,Service baseline evidence or build configuration,00;01
+docs/testing/requirements-traceability.csv,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
+docs/testing/stage-evidence-template.md,documentation,guide-package-reviewed,Development planning or evidence tracking,00;22;24
+docs/tools/build_documentation.py,documentation-tool,text-reviewed,Documentation regeneration or historical patch utility,24
+docs/tools/export_pdf.ps1,documentation-tool,text-reviewed,Documentation regeneration or historical patch utility,24
+docs/tools/update_v15.py,documentation-tool,text-reviewed,Documentation regeneration or historical patch utility,24
+frontend/.dockerignore,source/config,text-reviewed,Project source or configuration,00;01
+frontend/.env.example,source/config,text-reviewed,Project source or configuration,00;01
+frontend/Dockerfile,source/config,text-reviewed,Project source or configuration,00;01
+frontend/next-env.d.ts,source/config,text-reviewed,Project source or configuration,00;01
+frontend/next.config.ts,source/config,text-reviewed,Project source or configuration,00;01
+frontend/package.json,source/config,text-reviewed,Project source or configuration,00;01
+frontend/src/app/api/health/route.ts,source/config,text-reviewed,Public catalog frontend foundation,01
+frontend/src/app/layout.tsx,source/config,text-reviewed,Public catalog frontend foundation,01
+frontend/src/app/page.tsx,source/config,text-reviewed,Public catalog frontend foundation,01
+frontend/src/features/produce/catalog.ts,source/config,text-reviewed,Public catalog frontend foundation,01
+frontend/src/lib/api.ts,source/config,text-reviewed,Server-only unauthenticated read helper,01;03
+frontend/src/styles/globals.css,source/config,text-reviewed,Public catalog frontend foundation,01
+frontend/tsconfig.json,source/config,text-reviewed,Project source or configuration,00;01
+infrastructure/postgres/Dockerfile,source/config,text-reviewed,Project-named PostgreSQL image,01;23
+infrastructure/rabbitmq/Dockerfile,source/config,text-reviewed,Broker image and operational configuration,01;16;23
+infrastructure/rabbitmq/rabbitmq.conf,source/config,text-reviewed,Broker image and operational configuration,01;16;23
+scripts/development/check_baseline.py,source/config,stage-00-static-review,Service scaffold or planning artifact; runtime unverified,00;01
+scripts/development/smoke_check.py,source/config,text-reviewed,Project source or configuration,00;01
+ui-design/.gitignore,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
+ui-design/README.md,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
+ui-design/admin-overview.png,binary/source-or-generated,metadata-only,Original requirement document or generated visual/output,04;24
+ui-design/build.py,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
+ui-design/buyer-lot.png,binary/source-or-generated,metadata-only,Original requirement document or generated visual/output,04;24
+ui-design/check-layout.mjs,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
+ui-design/farmer-home.png,binary/source-or-generated,metadata-only,Original requirement document or generated visual/output,04;24
+ui-design/index.html,prototype/source,html-structure-text-and-local-links-reviewed,Static design reference or prototype tooling,04;24
+ui-design/layout-check.json,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
+ui-design/screen-manifest.json,prototype/source,text-reviewed,Static design reference or prototype tooling,04;24
+ui-design/screens/admin-inspection.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: admin-inspection,11;12
+ui-design/screens/admin-mobile.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: admin-mobile,10
+ui-design/screens/admin-overview.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: admin-overview,19
+ui-design/screens/admin-payments.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: admin-payments,14;15
+ui-design/screens/admin-queue.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: admin-queue,09;10
+ui-design/screens/buyer-cancelled.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-cancelled,06;08
+ui-design/screens/buyer-confirm.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-confirm,13
+ui-design/screens/buyer-expired.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-expired,08
+ui-design/screens/buyer-explore.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-explore,06
+ui-design/screens/buyer-lot.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-lot,05;06
+ui-design/screens/buyer-offer.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-offer,06
+ui-design/screens/buyer-offers.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-offers,06;07
+ui-design/screens/buyer-receipt.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-receipt,13;14
+ui-design/screens/buyer-reservation.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-reservation,07;08
+ui-design/screens/buyer-shortage-agreed.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-shortage-agreed,12
+ui-design/screens/buyer-shortage.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: buyer-shortage,12
+ui-design/screens/farmer-accepted.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-accepted,07
+ui-design/screens/farmer-create.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-create,04;05
+ui-design/screens/farmer-home.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-home,03;04;05
+ui-design/screens/farmer-lots.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-lots,05
+ui-design/screens/farmer-offers.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-offers,06;07
+ui-design/screens/farmer-paid.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-paid,14
+ui-design/screens/farmer-rejected.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-rejected,06
+ui-design/screens/farmer-settlement.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-settlement,13
+ui-design/screens/farmer-visit.html,prototype/source,html-structure-text-and-local-links-reviewed,Static prototype: farmer-visit,09;10

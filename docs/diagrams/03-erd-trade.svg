@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 880" role="img" aria-label="Trade ERD">
+<defs><marker id="arrow" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#486577"/></marker></defs>
+<rect width="1120" height="880" fill="#fff"/>
+<rect x="35" y="35" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="165.0" y="60" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">USERS</text>
+<path d="M35,71 H295" stroke="#aac8bd"/>
+<text x="47" y="92" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id</text>
+<text x="47" y="113" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">name, status</text>
+<text x="47" y="134" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">roles through USER_ROLES</text>
+<rect x="425" y="35" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="555.0" y="60" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">HARVESTS</text>
+<path d="M425,71 H685" stroke="#aac8bd"/>
+<text x="437" y="92" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK farmer_id → USERS</text>
+<text x="437" y="113" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">FK produce_type_id</text>
+<text x="437" y="134" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">expected_kg, arrival</text>
+<rect x="815" y="35" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="945.0" y="60" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">LOTS</text>
+<path d="M815,71 H1075" stroke="#aac8bd"/>
+<text x="827" y="92" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK harvest_id</text>
+<text x="827" y="113" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">status, asking_price_per_kg</text>
+<text x="827" y="134" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">stock_basis, price_version</text>
+<rect x="815" y="295" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="945.0" y="320" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">OFFERS</text>
+<path d="M815,331 H1075" stroke="#aac8bd"/>
+<text x="827" y="352" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK lot_id, buyer_id</text>
+<text x="827" y="373" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">quantity_kg, offered_price_per_kg</text>
+<text x="827" y="394" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">status, accepted_at</text>
+<rect x="425" y="295" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="555.0" y="320" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">RESERVATIONS</text>
+<path d="M425,331 H685" stroke="#aac8bd"/>
+<text x="437" y="352" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK offer_id UNIQUE</text>
+<text x="437" y="373" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">agreed_kg, expires_at</text>
+<text x="437" y="394" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">status; amendment history</text>
+<rect x="35" y="295" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="165.0" y="320" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">SALES</text>
+<path d="M35,331 H295" stroke="#aac8bd"/>
+<text x="47" y="352" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK reservation_id UNIQUE</text>
+<text x="47" y="373" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">sold_kg, price, confirmed_at</text>
+<text x="47" y="394" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">immutable financial snapshot</text>
+<rect x="35" y="575" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="165.0" y="600" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">SETTLEMENTS</text>
+<path d="M35,611 H295" stroke="#aac8bd"/>
+<text x="47" y="632" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK sale_id UNIQUE</text>
+<text x="47" y="653" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">gross, deductions, net</text>
+<text x="47" y="674" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">collection / payout balances</text>
+<rect x="425" y="575" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="555.0" y="600" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">PAYMENT_ENTRIES</text>
+<path d="M425,611 H685" stroke="#aac8bd"/>
+<text x="437" y="632" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK settlement_id</text>
+<text x="437" y="653" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">direction, amount, evidence</text>
+<text x="437" y="674" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">FK reversal_of → self (optional)</text>
+<rect x="815" y="575" width="260" height="145" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="945.0" y="600" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">STOCK_ADJUSTMENTS</text>
+<path d="M815,611 H1075" stroke="#aac8bd"/>
+<text x="827" y="632" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">PK id; FK lot_id, actor_id</text>
+<text x="827" y="653" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">signed_kg, reason, time</text>
+<text x="827" y="674" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">inspection / loss / withdrawal</text>
+<polyline points="295,100 425,100" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="360" y="87" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="685,100 815,100" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="750" y="87" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="945,180 945,295" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1000" y="240" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="815,365 685,365" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="750" y="350" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..1</text>
+<polyline points="425,365 295,365" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="360" y="350" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..1</text>
+<polyline points="165,440 165,575" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="210" y="515" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 1</text>
+<polyline points="295,645 425,645" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="360" y="630" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<polyline points="1075,160 1095,160 1095,650 1075,650" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1040" y="520" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">1 : 0..*</text>
+<text x="560" y="780" font-family="Arial,sans-serif" font-size="15" fill="#173b42" text-anchor="middle">Cardinality reads from source to target. FK = foreign key; PK = primary key.</text>
+<text x="560" y="808" font-family="Arial,sans-serif" font-size="14" fill="#173b42" text-anchor="middle">Buyer/actor FKs reference USERS. Offer acceptance creates at most one reservation.</text>
+<text x="560" y="835" font-family="Arial,sans-serif" font-size="14" fill="#173b42" text-anchor="middle">Support entities and remaining foreign keys are specified in the data dictionary.</text>
+</svg>

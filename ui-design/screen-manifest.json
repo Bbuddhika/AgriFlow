@@ -1,0 +1,183 @@
+{
+  "name": "Dambulla AgriFlow",
+  "figmaStatus": "User supplied target file; import pending because Figma editing tools are unavailable in this session",
+  "figmaFileKey": "iR5T4SR5iNWa7V2CWxGyjz",
+  "figmaUrl": "https://www.figma.com/design/iR5T4SR5iNWa7V2CWxGyjz/Dambulla-AgriFlow",
+  "screens": [
+    {
+      "key": "farmer-home",
+      "title": "Farmer home",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-create",
+      "title": "Register & publish",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-lots",
+      "title": "My lots",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-offers",
+      "title": "Incoming offers",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-accepted",
+      "title": "Acceptance review",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-rejected",
+      "title": "Offer rejected",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-visit",
+      "title": "Visit & queue",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-settlement",
+      "title": "Farmer settlement",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "farmer-paid",
+      "title": "Approved settlement",
+      "role": "Farmer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-explore",
+      "title": "Buyer marketplace",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-lot",
+      "title": "Produce detail",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-offer",
+      "title": "Make an offer",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-offers",
+      "title": "My offers",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-cancelled",
+      "title": "Cancelled offer",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-reservation",
+      "title": "Reservation",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-shortage",
+      "title": "Shortage consent",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-shortage-agreed",
+      "title": "Shortage agreed",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-expired",
+      "title": "Inactive reservation",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-confirm",
+      "title": "Confirm purchase",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "buyer-receipt",
+      "title": "Purchase receipt",
+      "role": "Buyer",
+      "width": 390,
+      "desktop": false
+    },
+    {
+      "key": "admin-overview",
+      "title": "Market overview",
+      "role": "Administrator",
+      "width": 1440,
+      "desktop": true
+    },
+    {
+      "key": "admin-queue",
+      "title": "Market operations",
+      "role": "Administrator",
+      "width": 1440,
+      "desktop": true
+    },
+    {
+      "key": "admin-inspection",
+      "title": "Physical inspection",
+      "role": "Administrator",
+      "width": 1440,
+      "desktop": true
+    },
+    {
+      "key": "admin-payments",
+      "title": "Payment records",
+      "role": "Administrator",
+      "width": 1440,
+      "desktop": true
+    },
+    {
+      "key": "admin-mobile",
+      "title": "Gate & queue mobile",
+      "role": "Administrator",
+      "width": 390,
+      "desktop": false
+    }
+  ]
+}

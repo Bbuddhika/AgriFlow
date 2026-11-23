@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 650" role="img" aria-label="System architecture">
+<defs><marker id="arrow" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#486577"/></marker></defs>
+<rect width="1120" height="650" fill="#fff"/>
+<rect x="30" y="230" width="210" height="130" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="135.0" y="255" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Responsive browser</text>
+<path d="M30,266 H240" stroke="#aac8bd"/>
+<text x="42" y="287" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Three role dashboards</text>
+<text x="42" y="308" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Next.js / TypeScript</text>
+<text x="42" y="329" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Read-only chat interface</text>
+<rect x="350" y="60" width="350" height="85" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="525.0" y="85" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">API and security</text>
+<path d="M350,96 H700" stroke="#aac8bd"/>
+<text x="362" y="117" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Authentication, ownership, validation</text>
+<rect x="350" y="195" width="350" height="195" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="525.0" y="220" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Spring Boot modular backend</text>
+<path d="M350,231 H700" stroke="#aac8bd"/>
+<text x="362" y="252" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Identity / produce / trade</text>
+<text x="362" y="273" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Visits / inspection / administration</text>
+<text x="362" y="294" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Assistant: allowlisted read tools</text>
+<text x="362" y="315" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Transactions and audit events</text>
+<text x="362" y="336" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Expiry / notification / retention jobs</text>
+<rect x="350" y="455" width="350" height="110" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="525.0" y="480" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">PostgreSQL</text>
+<path d="M350,491 H700" stroke="#aac8bd"/>
+<text x="362" y="512" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Domain records, constraints, history</text>
+<text x="362" y="533" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Migrations and transaction locks</text>
+<rect x="820" y="220" width="255" height="105" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="947.5" y="245" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">External model provider</text>
+<path d="M820,256 H1075" stroke="#aac8bd"/>
+<text x="832" y="277" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Minimum authorized context</text>
+<text x="832" y="298" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">No direct database access</text>
+<rect x="820" y="455" width="255" height="110" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="947.5" y="480" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Encrypted off-host backups</text>
+<path d="M820,491 H1075" stroke="#aac8bd"/>
+<text x="832" y="512" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Daily schedule</text>
+<text x="832" y="533" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="start">Demonstrated restore</text>
+<polyline points="240,270 290,270 290,100 350,100" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="285" y="215" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">HTTPS</text>
+<polyline points="525,145 525,195" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="525,390 525,455" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="610" y="425" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">SQL transactions</text>
+<polyline points="700,270 820,270" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="760" y="257" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">HTTPS</text>
+<polyline points="700,510 820,510" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="760" y="495" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Backup</text>
+<text x="560" y="615" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">One market • one backend deployment • no payment gateway • AI optional at runtime</text>
+</svg>

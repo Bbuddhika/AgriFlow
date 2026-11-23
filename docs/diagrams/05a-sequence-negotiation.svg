@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 600" role="img" aria-label="Sequence — asking price and buyer negotiation">
+<defs><marker id="arrow" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#486577"/></marker></defs>
+<rect width="1120" height="600" fill="#fff"/>
+<rect x="10.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="80.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Farmer</text>
+<polyline points="80.0,60 80.0,530" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="490.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="560.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Application</text>
+<polyline points="560.0,60 560.0,530" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="970.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="1040.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Buyer</text>
+<polyline points="1040.0,60 1040.0,530" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<polyline points="80.0,105 560.0,105" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="320.0" y="96" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Publish potatoes: 100 kg at LKR 200/kg</text>
+<polyline points="560.0,165 1040.0,165" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="800.0" y="156" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Show asking price and available quantity</text>
+<polyline points="1040.0,225 560.0,225" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="800.0" y="216" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Offer 50 kg at LKR 195/kg; total LKR 9,750</text>
+<polyline points="560.0,285 80.0,285" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="320.0" y="276" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Notify: pending offer; no stock held</text>
+<polyline points="80.0,345 560.0,345" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="320.0" y="336" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Accept offered price and quantity</text>
+<polyline points="560.0,405 80.0,405" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="320.0" y="396" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Atomic hold: 50 kg at 195/kg; expires +24h</text>
+<polyline points="560.0,465 1040.0,465" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="800.0" y="456" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Notify accepted offer and reservation expiry</text>
+<text x="560" y="580" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="middle">Alternative: farmer rejects; no hold is created. Buyer may submit a new offer.</text>
+</svg>

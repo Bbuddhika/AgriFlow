@@ -1,0 +1,303 @@
+name: dambulla-agriflow
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  database:
+    image: dambulla-agriflow-database:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./infrastructure/postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-agriflow}
+      POSTGRES_USER: ${POSTGRES_USER:-agriflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      TZ: Asia/Colombo
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    logging: *logging
+
+  rabbitmq:
+    image: dambulla-agriflow-rabbitmq:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./infrastructure/rabbitmq
+    hostname: agriflow-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-agriflow}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD in .env}
+      RABBITMQ_DEFAULT_VHOST: agriflow
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - "127.0.0.1:${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
+    networks: [messaging]
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping && rabbitmq-diagnostics -q check_port_connectivity"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+    mem_limit: 768m
+    restart: unless-stopped
+    logging: *logging
+
+  market-core-service:
+    image: dambulla-agriflow-market-core-service:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./backend
+      dockerfile: market-core-service/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://database:5432/${POSTGRES_DB:-agriflow}
+      DB_USERNAME: ${POSTGRES_USER:-agriflow}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: ${RABBITMQ_USER:-agriflow}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD in .env}
+      RABBITMQ_VHOST: agriflow
+      TZ: Asia/Colombo
+    networks: [services, data, messaging]
+    depends_on:
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/actuator/health/readiness || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    restart: unless-stopped
+    logging: *logging
+
+  frontend:
+    image: dambulla-agriflow-frontend:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./frontend
+    environment:
+      API_BASE_URL: http://api-gateway:8080
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
+    networks: [web]
+    depends_on:
+      market-core-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    restart: unless-stopped
+    logging: *logging
+
+  identity-database:
+    image: dambulla-agriflow-database:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./infrastructure/postgres
+    environment:
+      POSTGRES_DB: agriflow_identity
+      POSTGRES_USER: agriflow_identity
+      POSTGRES_PASSWORD: ${IDENTITY_DB_PASSWORD:?Set IDENTITY_DB_PASSWORD in .env}
+    volumes:
+      - identity-data:/var/lib/postgresql/data
+    networks: [identity-data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    logging: *logging
+
+  auth-iam-service:
+    image: dambulla-agriflow-auth-iam-service:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./backend
+      dockerfile: auth-iam-service/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://identity-database:5432/agriflow_identity
+      DB_USERNAME: agriflow_identity
+      DB_PASSWORD: ${IDENTITY_DB_PASSWORD:?Set IDENTITY_DB_PASSWORD in .env}
+    depends_on:
+      identity-database:
+        condition: service_healthy
+    networks: [services, identity-data]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/actuator/health/readiness || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    restart: unless-stopped
+    logging: *logging
+
+  notifications-database:
+    image: dambulla-agriflow-database:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./infrastructure/postgres
+    environment:
+      POSTGRES_DB: agriflow_notifications
+      POSTGRES_USER: agriflow_notifications
+      POSTGRES_PASSWORD: ${NOTIFICATION_DB_PASSWORD:?Set NOTIFICATION_DB_PASSWORD in .env}
+    volumes:
+      - notifications-data:/var/lib/postgresql/data
+    networks: [notifications-data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    logging: *logging
+
+  notification-service:
+    image: dambulla-agriflow-notification-service:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./backend
+      dockerfile: notification-service/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://notifications-database:5432/agriflow_notifications
+      DB_USERNAME: agriflow_notifications
+      DB_PASSWORD: ${NOTIFICATION_DB_PASSWORD:?Set NOTIFICATION_DB_PASSWORD in .env}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: ${RABBITMQ_USER:-agriflow}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD in .env}
+      RABBITMQ_VHOST: agriflow
+    depends_on:
+      notifications-database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks: [services, notifications-data, messaging]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/actuator/health/readiness || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    restart: unless-stopped
+    logging: *logging
+
+  assistant-database:
+    image: dambulla-agriflow-database:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./infrastructure/postgres
+    environment:
+      POSTGRES_DB: agriflow_assistant
+      POSTGRES_USER: agriflow_assistant
+      POSTGRES_PASSWORD: ${ASSISTANT_DB_PASSWORD:?Set ASSISTANT_DB_PASSWORD in .env}
+    volumes:
+      - assistant-data:/var/lib/postgresql/data
+    networks: [assistant-data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    logging: *logging
+
+  analytics-ai-service:
+    image: dambulla-agriflow-analytics-ai-service:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./backend
+      dockerfile: analytics-ai-service/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://assistant-database:5432/agriflow_assistant
+      DB_USERNAME: agriflow_assistant
+      DB_PASSWORD: ${ASSISTANT_DB_PASSWORD:?Set ASSISTANT_DB_PASSWORD in .env}
+    depends_on:
+      assistant-database:
+        condition: service_healthy
+    networks: [services, assistant-data]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/actuator/health/readiness || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    restart: unless-stopped
+    logging: *logging
+
+  api-gateway:
+    image: dambulla-agriflow-api-gateway:${IMAGE_TAG:-0.1.0}
+    build:
+      context: ./backend
+      dockerfile: api-gateway/Dockerfile
+    environment:
+      MARKET_CORE_URL: http://market-core-service:8080
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8080}:8080"
+    depends_on:
+      market-core-service:
+        condition: service_healthy
+    networks: [web, services]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/actuator/health/readiness || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  postgres-data:
+  rabbitmq-data:
+  identity-data:
+  notifications-data:
+  assistant-data:
+
+networks:
+  services:
+    internal: true
+  identity-data:
+    internal: true
+  notifications-data:
+    internal: true
+  assistant-data:
+    internal: true
+  web:
+  data:
+    internal: true
+  messaging:

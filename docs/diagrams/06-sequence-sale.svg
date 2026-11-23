@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 780" role="img" aria-label="Sequence — inspection-qualified purchase">
+<defs><marker id="arrow" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#486577"/></marker></defs>
+<rect width="1120" height="780" fill="#fff"/>
+<rect x="10.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="80.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Buyer</text>
+<polyline points="80.0,60 80.0,710" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="330.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="400.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">API / Auth</text>
+<polyline points="400.0,60 400.0,710" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="650.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="720.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">Trade service</text>
+<polyline points="720.0,60 720.0,710" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="970.0" y="15" width="140" height="44" rx="7" fill="#eef7f3" stroke="#31756a" stroke-width="1.5"/>
+<text x="1040.0" y="40" font-family="Arial,sans-serif" font-size="16" fill="#173b42" text-anchor="middle">PostgreSQL</text>
+<polyline points="1040.0,60 1040.0,710" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4"/>
+<polyline points="80.0,105 400.0,105" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="240.0" y="96" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Confirm reservation + idempotency key</text>
+<polyline points="400.0,165 720.0,165" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="560.0" y="156" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Verify buyer ownership</text>
+<polyline points="720.0,225 1040.0,225" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="880.0" y="216" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">BEGIN; lock lot/reservation; check key</text>
+<polyline points="1040.0,285 720.0,285" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="880.0" y="276" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Fresh time, inspection, holds, consent, deductions</text>
+<polyline points="720.0,345 1040.0,345" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="880.0" y="336" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Validate active + no reconciliation deficit</text>
+<polyline points="720.0,405 1040.0,405" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="880.0" y="396" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Create sale + settlement; consume reservation</text>
+<polyline points="720.0,465 1040.0,465" fill="none" stroke="#486577" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="880.0" y="456" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Store idempotent response + audit + event</text>
+<polyline points="1040.0,525 720.0,525" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="880.0" y="516" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">COMMIT atomically</text>
+<polyline points="720.0,585 400.0,585" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="560.0" y="576" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Sale / receipt; payment remains unpaid</text>
+<polyline points="400.0,645 80.0,645" fill="none" stroke="#486577" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="240.0" y="636" font-family="Arial,sans-serif" font-size="12" fill="#173b42" text-anchor="middle">Show agreed kg and totals</text>
+<text x="560" y="760" font-family="Arial,sans-serif" font-size="13" fill="#173b42" text-anchor="middle">Expired, rejected or unreconciled: rollback. Same key/input returns same result; changed input conflicts.</text>
+</svg>
